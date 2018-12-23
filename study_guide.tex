@@ -1,0 +1,206 @@
+%------------------------------------------------------------------------------
+%   PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%------------------------------------------------------------------------------
+
+\documentclass[twoside,twocolumn]{article}
+
+%\usepackage[sc]{mathpazo} % Use the Palatino font
+%\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+%\linespread{1.05} % Line spacing - Palatino needs more space between lines
+%\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+\usepackage[english]{babel} % Language hyphenation and typographical rules
+
+% Document margins
+\usepackage[hmarginratio=1:1,top=32mm,left=20mm,right=20mm,columnsep=20pt]{geometry}
+% Custom captions under/above floats in tables or figures
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption}
+\usepackage{booktabs} % Horizontal rules in tables
+
+\usepackage{enumitem} % Customized lists
+\setlist[itemize]{noitemsep} % Make itemize lists more compact
+\usepackage{textcomp}
+
+% Allows abstract customization
+\usepackage{abstract}
+% Set the "Abstract" text to bold
+\renewcommand{\abstractnamefont}{\normalfont\bfseries}
+% Set the abstract itself to small italic text
+\renewcommand{\abstracttextfont}{\normalfont\small\itshape}
+
+\usepackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyhead[C]{\thetitle}
+\fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+\usepackage{titling} % Customizing the title section
+
+\usepackage{hyperref} % For hyperlinks in the PDF
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{tikz}
+\usetikzlibrary{bayesnet, arrows, positioning, fit, arrows.meta, shapes}
+
+\usepackage{color}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{graphicx}
+
+
+\captionsetup[figure]{labelfont={bf},textfont=normalfont}
+
+%------------------------------------------------------------------------------
+%   TITLE SECTION
+%------------------------------------------------------------------------------
+\newlength\mystoreparindent
+\newenvironment{myparindent}[1]{%
+  \setlength{\mystoreparindent}{\the\parindent}
+  \setlength{\parindent}{#1}
+  }{%
+  \setlength{\parindent}{\mystoreparindent}
+}
+
+\setlength{\droptitle}{-4\baselineskip} % Move the title up
+
+\pretitle{\begin{center}\Huge\bfseries} % Article title formatting
+\posttitle{\end{center}} % Article title closing formatting
+
+\title{Machine Learning Study Guide}
+\author{%
+  \textsc{William Watson} \\[1ex]
+  \normalsize Johns Hopkins University \\
+  \normalsize \href{mailto:billwatson@jhu.edu}{billwatson@jhu.edu}
+}
+
+\date{}%\today} % Leave empty to omit a date
+% \renewcommand{\maketitlehookd}{%
+
+% }
+
+%------------------------------------------------------------------------------
+
+\begin{document}
+
+% Print the title
+\maketitle
+
+%------------------------------------------------------------------------------
+%   ARTICLE CONTENTS
+%------------------------------------------------------------------------------
+
+%------------------------------------------------
+\onecolumn
+%------------------------------------------------
+\section{Preliminary Notation}
+\subsection{Linear Algebra and Calculus}
+\subsubsection{General Notation}
+\subsubsection{Matrix Operations}
+\subsubsection{Matrix Properties}
+\subsubsection{Matrix Calculus}
+\subsection{Convex Optimization}
+\subsubsection{Convexity}
+\subsubsection{Calculus}
+\subsubsection{Optimization}
+\subsection{Probability and Statistics}
+\subsubsection{Basics}
+\subsubsection{Conditional Probability}
+\subsubsection{Random Variables}
+\subsubsection{Jointly Distributed Random Variables}
+\subsubsection{Parameter Estimation}
+\subsection{Information Theory}
+\subsubsection{Basics}
+\subsubsection{Cross-Entropy and KL Divergence}
+%------------------------------------------------
+\section{Machine Learning Basics}
+\subsection{Notation}
+\subsection{Types of Learning}
+\subsection{Metrics}
+\subsubsection{Classification}
+\subsubsection{Regression}
+\subsection{Bias and Variance}
+%------------------------------------------------
+\section{Linear Regression}
+\subsection{LMS Algorithm}
+\subsection{The Normal Equations}
+\subsection{Probabilistic Interpretation}
+\subsection{Locally Weighted Linear Regression}
+
+%------------------------------------------------
+\section{Logistic Regression}
+\subsection{Softmax Regression}
+%------------------------------------------------
+\section{Generalized Linear Models}
+\subsection{Exponentional Family}
+\subsection{Assumptions of GLMs}
+\subsection{Examples}
+\subsubsection{Ordinary Least Squares}
+\subsubsection{Logistic Regression}
+\subsubsection{Softmax Regression}
+%------------------------------------------------
+\section{Support Vector Machines}
+%------------------------------------------------
+\section{Generative Learning: Gaussian Discriminant Analysis}
+%------------------------------------------------
+\section{Generative Learning: Naive Bayes}
+%------------------------------------------------
+\section{Tree-based Methods}
+%------------------------------------------------
+\section{K-Nearest Neighbors}
+%------------------------------------------------
+%------------------------------------------------
+\section{K-Means Clustering}
+\subsection{Hierarchical Clustering}
+\subsection{Clustering Metrics}
+%------------------------------------------------
+\section{Expectation-Maximization}
+\subsection{Mixture of Gaussians}
+\subsection{Factor Analysis}
+%------------------------------------------------
+\section{Principal Component Analysis}
+%------------------------------------------------
+\section{Independent Component Analysis}
+%------------------------------------------------
+\section{Reinforcement Learning}
+\subsection{Markov Decision Processes}
+\subsection{Policy and Value Functions}
+\subsection{Value Iteration Algorithm}
+\subsection{Q-Learning}
+%------------------------------------------------
+\section{Hidden Markov Models}
+%------------------------------------------------
+\section{Deep Learning}
+\subsection{Basics}
+\subsection{Activation Functions}
+\subsection{Loss Functions}
+\subsection{Backpropagation}
+\subsection{Regularization Methods}
+\subsection{Optimization Algorithms}
+\subsection{Convolutional Networks}
+\subsection{Recurrent Networks}
+\subsubsection{Elman RNN}
+\subsubsection{Long Short-Term Memory}
+\subsubsection{Gated Recurrent Unit}
+\subsection{Autoencoders}
+\subsubsection{Variational Autoencoders}
+\subsection{General Adversarial Networks}
+\subsection{Encoder-Decoder Models}
+\subsubsection{Attention Models}
+
+%------------------------------------------------
+%------------------------------------------------
+%------------------------------------------------
+%------------------------------------------------
+%------------------------------------------------
+
+
+% References
+% \bibliographystyle{abbrv}
+% \bibliography{study_guide}
+
+%------------------------------------------------
+
+\end{document}

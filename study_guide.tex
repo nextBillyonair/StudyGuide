@@ -361,7 +361,7 @@ Assume $m$ training examples generated independently, we define the likelihood
 function of the parameters as:
 \begin{equation}
   \begin{aligned}
-    L ( \theta ) \quad & = \quad p _ { m } ^ { m } | X ; \theta ) \\
+    L ( \theta ) \quad & = \quad p \left( \vec{y} | X ; \theta \right) \\
     & = \quad \prod _ { i = 1 } ^ { m } p \left( y ^ { ( i ) } | x ^ { ( i ) } ; \theta \right) \\
     & = \quad \prod _ { i = 1 } ^ { m } \left( h \left( x ^ { ( i ) } \right) \right) ^ { y ^ { ( i ) } } \left( 1 - h  \left( x ^ { ( i ) } \right) \right) ^ { 1 - y ^ { ( i ) } }
   \end{aligned}

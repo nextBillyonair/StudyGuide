@@ -104,6 +104,8 @@
 \section{Convex Optimization}
 \subsection{Convexity}
 \subsection{Convex Optimization}
+\subsubsection{Gradient Descent}
+\subsubsection{Newton's Algorithm}
 \subsection{Lagrange Duality and KKT Conditions}
 %------------------------------------------------
 \section{Probability and Statistics}
@@ -174,7 +176,7 @@ Minimizing the cross-entropy with respect to $Q$ is equivalent to
 minimizing the KL divergence, because $Q$ does not participate in the
 omitted term (entropy is constant).
 %------------------------------------------------
-\section{Machine Learning Basics}
+\section{Machine Learning Basics} %Or learning theory?
 \subsection{Notation}
 \subsection{Types of Learning}
 \subsection{Metrics}
@@ -305,10 +307,98 @@ This is thus one set of assumptions under which least-squares regression
 can be justified as performing maximum likelihood estimation. Note that $\theta$
 is independent of $\sigma^2$.
 \subsection{Locally Weighted Linear Regression}
-
+Locally Weighted Regression, also known as LWR, is a variant of
+linear regression that weights each training example in its cost function by
+$w^{(i)}(x)$, which is defined with parameter $\tau \in \mathbb{R}$ as:
+\begin{equation}
+  w^{(i)}(x)=\exp\left(-\frac{(x^{(i)}-x)^2}{2\tau^2}\right)
+\end{equation}
+Hence, in LWR, we do the following:
+\begin{enumerate}
+  \item Fit $\theta$ to minimize $\sum_i w^{(i)} \left( y^{(i)} - \theta^{T} x^{(i)} \right)^{2}$
+  \item Output $\theta^T x$
+\end{enumerate}
+This is a non-parametric algorithm, where non-parametric refers to the fact
+that the amount of information we need to represent the hypothesis $h$ grows
+linearly with the size of the training set.
 %------------------------------------------------
 \section{Logistic Regression}
-\subsection{Softmax Regression}
+We can extend this learning to classification problems, where we have binary
+labels $y$ that are either $0$ or $1$.
+\subsection{The Logistic Function}
+For logistic regression, our new hypothesis for estimating the class of a
+sample $x$ is:
+\begin{equation}
+  h( x ) = g \left( \theta ^ { T } x \right) = \frac { 1 } { 1 + e ^ { - \theta ^ { T } x } }
+\end{equation}
+where $g(z)$ is the logistic or sigmoid function:
+\begin{equation}
+  g ( z ) = \frac { 1 } { 1 + e ^ { - z } }
+\end{equation}
+The sigmoid function is bounded between $0$ and $1$, and tends towards $1$ as
+$z \rightarrow \infty$. It tends towards $0$ when $z \rightarrow -\infty$.
+A useful property of the sigmoid function is the form of its derivative:
+\begin{equation}
+  \begin{aligned} g ^ { \prime } ( z ) \quad & = \quad \frac { d } { d z } \frac { 1 } { 1 + e ^ { - z } } \\
+    & = \quad \frac { 1 } { \left( 1 + e ^ { - z } \right) ^ { 2 } } \left( e ^ { - z } \right) \\
+    & = \quad \frac { 1 } { \left( 1 + e ^ { - z } \right) } \cdot \left( 1 - \frac { 1 } { \left( 1 + e ^ { - z } \right) } \right) \\
+    & = \quad g ( z ) ( 1 - g ( z ) )
+  \end{aligned}
+\end{equation}
+\subsection{Cost Function}
+To fit $\theta$ for a set of training examples, we assume that:
+\begin{equation}
+  \begin{aligned}
+    P ( y = 1 | x ; \theta ) & = h( x ) \\
+    P ( y = 0 | x ; \theta ) & = 1 - h( x )
+  \end{aligned}
+\end{equation}
+This can be written more compactly as:
+\begin{equation}
+  p ( y | x ; \theta ) = \left( h ( x ) \right) ^ { y } \left( 1 - h ( x ) \right) ^ { 1 - y }
+\end{equation}
+Assume $m$ training examples generated independently, we define the likelihood
+function of the parameters as:
+\begin{equation}
+  \begin{aligned}
+    L ( \theta ) \quad & = \quad p _ { m } ^ { m } | X ; \theta ) \\
+    & = \quad \prod _ { i = 1 } ^ { m } p \left( y ^ { ( i ) } | x ^ { ( i ) } ; \theta \right) \\
+    & = \quad \prod _ { i = 1 } ^ { m } \left( h \left( x ^ { ( i ) } \right) \right) ^ { y ^ { ( i ) } } \left( 1 - h  \left( x ^ { ( i ) } \right) \right) ^ { 1 - y ^ { ( i ) } }
+  \end{aligned}
+\end{equation}
+And taking the negative log likelihood to minimize:
+\begin{equation}
+  \begin{aligned}
+    \ell ( \theta ) \quad & = \quad -\log L ( \theta ) \\
+    & = \quad -\sum _ { i = 1 } ^ { m } y ^ { ( i ) } \log h \left( x ^ { ( i ) } \right) + \left( 1 - y ^ { ( i ) } \right) \log \left( 1 - h \left( x ^ { ( i ) } \right) \right)
+  \end{aligned}
+\end{equation}
+This is known as the binary cross-entropy loss function.
+\subsection{Gradient Descent}
+Let’s start by working with just one training example (x,y), and take
+derivatives to derive the stochastic gradient ascent rule:
+\begin{equation}
+  \begin{aligned}
+    \frac { \partial } { \partial \theta _ { j } } \ell ( \theta ) \quad & = \quad - \left( y \frac { 1 } { g \left( \theta ^ { T } x \right) } - ( 1 - y ) \frac { 1 } { 1 - g \left( \theta ^ { T } x \right) } \right) \frac { \partial } { \partial \theta _ { j } } g \left( \theta ^ { T } x \right) \\
+    & = \quad - \left( y \frac { 1 } { g \left( \theta ^ { T } x \right) } - ( 1 - y ) \frac { 1 } { 1 - g \left( \theta ^ { T } x \right) } \right) g \left( \theta ^ { T } x \right) \left( 1 - g \left( \theta ^ { T } x \right) \right) \frac { \partial } { \partial \theta _ { j } } \theta ^ { T } x \\
+    & = \quad - \left( y \left( 1 - g \left( \theta ^ { T } x \right) \right) - ( 1 - y ) g \left( \theta ^ { T } x \right) \right) x _ { j } \\
+    & = \quad - \left( y - h ( x ) \right) x _ { j }
+  \end{aligned}
+\end{equation}
+This therefore gives us the stochastic gradient ascent rule:
+\begin{equation}
+  \theta _ { j } : = \theta _ { j } + \alpha \left( y ^ { ( i ) } - h \left( x ^ { ( i ) } \right) \right) x _ { j } ^ { ( i ) }
+\end{equation}
+We must use gradient descent for logistic regression since there is no closed
+form solution for this problem.
+%------------------------------------------------
+\section{Softmax Regression}
+A softmax regression, also called a multiclass logistic regression, is
+used to generalize logistic regression when there are more than 2 outcome
+classes.
+\subsection{Softmax Function}
+\subsection{MLE and Cost Function}
+\subsection{Gradient Descent}
 %------------------------------------------------
 \section{Generalized Linear Models}
 \subsection{Exponentional Family}
@@ -318,11 +408,17 @@ is independent of $\sigma^2$.
 \subsubsection{Logistic Regression}
 \subsubsection{Softmax Regression}
 %------------------------------------------------
+\section{Perceptron}
+%------------------------------------------------
 \section{Support Vector Machines}
 %------------------------------------------------
 \section{Generative Learning: Gaussian Discriminant Analysis}
+\subsection{Assumptions}
+\subsection{Estimation}
 %------------------------------------------------
 \section{Generative Learning: Naive Bayes}
+\subsection{Assumptions}
+\subsection{Estimation}
 %------------------------------------------------
 \section{Tree-based Methods}
 %------------------------------------------------

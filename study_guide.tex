@@ -105,7 +105,28 @@
 \subsection{Convexity}
 \subsection{Convex Optimization}
 \subsubsection{Gradient Descent}
+Using $\alpha \in \mathbb{R}$ as the learning rate, we can update a set of
+parameters $\theta$ with respect to minimizing a function $f$ as follows:
+\begin{equation}
+  \theta := \theta-\alpha\nabla f(\theta)
+\end{equation}
+Stochastic gradient descent (SGD) is updating the parameter based on each
+training example, and batch gradient descent is on a batch of training
+examples.
 \subsubsection{Newton's Algorithm}
+Newton's algorithm is a numerical method using information from the second
+derivative to find $\theta$ such that $f'(\theta)=0$.
+\begin{equation}
+  \theta := \theta-\frac{f'(\theta)}{f''(\theta)}
+\end{equation}
+For multidimensional parameters:
+\begin{equation}
+  \theta := \theta-\alpha H^{-1} \nabla_\theta f(\theta)
+\end{equation}
+Where $H$ is the hessian matrix of second partial derivatives.
+\begin{equation}
+  H_{ij} = \frac { \partial ^ { 2 } f ( \theta ) } { \partial \theta _ { i } \partial \theta _ { j } }
+\end{equation}
 \subsection{Lagrange Duality and KKT Conditions}
 %------------------------------------------------
 \section{Probability and Statistics}
@@ -397,6 +418,12 @@ A softmax regression, also called a multiclass logistic regression, is
 used to generalize logistic regression when there are more than 2 outcome
 classes.
 \subsection{Softmax Function}
+The softmax function creates a probability distribution over a set of $k$
+classes for a training example $x$, with $\theta_k$ denoting the set of
+parameters to be optimzed for the $k$-th class.
+\begin{equation}
+  P(y=k | x; \theta) = \frac{\exp \left(\theta_k^T x \right)}{\sum_j \exp \left( \theta_j^T x \right)}
+\end{equation}
 \subsection{MLE and Cost Function}
 \subsection{Gradient Descent}
 %------------------------------------------------

@@ -91,15 +91,152 @@
 %------------------------------------------------------------------------------
 %   ARTICLE CONTENTS
 %------------------------------------------------------------------------------
-
+\tableofcontents
 %------------------------------------------------
 \onecolumn
 %------------------------------------------------
 \section{Linear Algebra and Calculus}
 \subsection{General Notation}
+A vector $x \in \mathbb{R}^n$ has $n$ entries, and $x_i \in \mathbb{R}$ is the
+$i$-th entry:
+\begin{equation}
+  x=\left(\begin{array}{c}x_1\\x_2\\\vdots\\x_n\end{array}\right)\in\mathbb{R}^n
+\end{equation}
+We denote a matrix $A \in \mathbb{R}^{m \times n}$ with $m$ rows and $n$
+columns, and $A_{ij} \in \mathbb{R}$ is the entry in the $i$-th row and
+$j$-th column:
+\begin{equation}
+  A=\left(\begin{array}{ccc}A_{11}& \cdots&A_{1n}\\\vdots&& \vdots\\A_{m1}& \cdots&A_{mn}\end{array}\right)\in\mathbb{R}^{m\times n}
+\end{equation}
+Vectors can be viewed as a $n \times 1$ matrix.
+The identity matrix $I\in\mathbb{R}^{n\times n}$ is a square matrix with ones
+along the diagonal and zero everywhere else:
+\begin{equation}
+  I=\left(\begin{array}{cccc}1&0& \cdots&0\\0& \ddots& \ddots& \vdots\\\vdots& \ddots& \ddots&0\\0& \cdots&0&1\end{array}\right)
+\end{equation}
+For all matrices $A \in \mathbb{R}^{n \times n}$ we have
+$A \times I = I \times A = A$.
+A diagonal matrix $D \in \mathbb{R}^{n \times n}$
+is a square matrix with nonzero values along the diagonal and zero everywhere
+else:
+\begin{equation}
+  D=\left(\begin{array}{cccc}d_1&0& \cdots&0\\0& \ddots& \ddots& \vdots\\\vdots& \ddots& \ddots&0\\0& \cdots&0&d_n\end{array}\right)
+\end{equation}
+The diagonal matrix $D$ is also written as $\textrm{diag}(d_1,...,d_n)$.
 \subsection{Matrix Operations}
+\subsubsection{Vector-Vector Products}
+Given two vectors $x$, $y \in \mathbb{R}^n$, the inner product is:
+\begin{equation}
+  x^T y = \sum_{i=1}^n x_i y_i \in \mathbb{R}
+\end{equation}
+The outer product for a vector $x \in \mathbb{R}^m$, $y \in \mathbb{R}^n$ is:
+\begin{equation}
+  xy^T=\left(\begin{array}{ccc}x_1y_1& \cdots&x_1y_n\\\vdots&\ddots& \vdots\\x_my_1& \cdots&x_my_n\end{array}\right)\in\mathbb{R}^{m\times n}
+\end{equation}
+\subsubsection{Vector-Matrix Products}
+The product of a matrix $A \in \mathbb{R}^{m \times n}$ and vector
+$x \in \mathbb{R}^n$ is a vector $y = Ax \in \mathbb{R}^m$. If we write $A$
+by the rows, $Ax$ is expressed as:
+\begin{equation}
+  y = A x = \left( \begin{array} { c } { - \,\, a _ { 1 } ^ { T } \,\,- } \\ { - \,\,a _ { 2 } ^ { T }\,\, -} \\ { \vdots } \\ { - \,\, a _ { m } ^ { T } \,\,-} \end{array} \right) x = \left( \begin{array} { c } { a _ { 1 } ^ { T } x } \\ { a _ { 2 } ^ { T } x } \\ { \vdots } \\ { a _ { m } ^ { T } x } \end{array} \right)
+\end{equation}
+Here, the $i$-th entry of $y$ is the inner product of the $i$-th row of $A$ and
+$x$, $y_i = a_i^T x$. If we write $A$ is column form:
+\begin{equation}
+  y = A x = \left( \begin{array} { c c c c } { | } & { | } & { } & { | } \\ { a _ { 1 } } & { a _ { 2 } } & { \cdots } & { a _ { n } } \\ { | } & { | } & { } & { | } \end{array} \right) \left( \begin{array} { c } { x _ { 1 } } \\ { x _ { 2 } } \\ { \vdots } \\ { x _ { n } } \end{array} \right) = a _ { 1 } x _ { 1 } + a _ { 2 } x _ { 2 } + \ldots +  a _ { n } x _ { n }
+\end{equation}
+Here, $y$ is a linear combination of the columns of $A$, where the coefficients
+of the linear combination are given by the entries of $x$.
+\subsubsection{Matrix-Matrix Products}
+Given a matrix $A\in \mathbb{m \times n}$ and matrix $B \in \mathbb{n \times p}$,
+we can define $C = AB$ as follows:
+\begin{equation}
+  C = AB = \left( \begin{array} { c c c c } { a _ { 1 } ^ { T } b _ { 1 } } & { a _ { 1 } ^ { T } b _ { 2 } } & { \cdots } & { a _ { 1 } ^ { T } b _ { p } } \\ { a _ { 2 } ^ { T } b _ { 1 } } & { a _ { 2 } ^ { T } b _ { 2 } } & { \cdots } & { a _ { 2 } ^ { T } b _ { p } } \\ { \vdots } & { \vdots } & { \ddots } & { \vdots } \\ { a _ { m } ^ { T } b _ { 1 } } & { a _ { m } ^ { T } b _ { 2 } } & { \cdots } & { a _ { m } ^ { T } b _ { p } } \end{array} \right)
+\end{equation}
+Hence, each $(i,j)$-th entry of $C$ is equal to the inner product of the $i$-th
+row of $A$ and the $j$-th column of $B$. Compactly:
+\begin{equation}
+  C_{ij} = a_i^T b_j = \sum_{k=1}^n a_{ik} b_{kj}
+\end{equation}
+\subsubsection{The Transpose}
+The transpose of a matrix $A\in \mathbb{R}^{m \times n}$ is
+$A^T \in \mathbb{R}^{n \times m}$ matrix whose entries are:
+\begin{equation}
+  (A^T)_{ij} = A_{ji}
+\end{equation}
+Properties of the transpose:
+\begin{enumerate}
+  \item $(A^T)^T = A$
+  \item $(AB)^T = B^T A^T$
+  \item $(A + B)^T = A^T + B^T$
+\end{enumerate}
+\subsubsection{The Trace}
+The trace of a square matrix $A \in \mathbb{R}^{n \times m}$ is denoted
+$\operatorname{tr}(A)$. It is the sum of diagonal elements in the matrix:
+\begin{equation}
+  \operatorname{tr}A = \sum_{i=1}^n A_{ii}
+\end{equation}
+Properties of the trace:
+\begin{enumerate}
+  \item For $A \in \mathbb{R}^{n \times n}$, $\operatorname{tr}A=\operatorname{tr}A^T$
+  \item For $A, B \in \mathbb{R}^{n \times n}$, $\operatorname{tr}(A+B)=\operatorname{tr}A+\operatorname{tr}B$
+  \item For $A \in \mathbb{R}^{n \times n}$, $t\in \mathbb{R}$, $\operatorname{tr}(tA)=t \cdot \operatorname{tr}A$
+  \item For $A, B$ such that $AB$ is square, $\operatorname{tr}AB = \operatorname{tr}BA$
+  \item For $A,B,C$ such that $ABC$ is square, $\operatorname{tr}ABC=\operatorname{tr}BCA = \operatorname{tr}CAB$, and so on
+\end{enumerate}
+\subsubsection{The Inverse}
+The inverse of a matrix
+\subsubsection{The Determinant}
+The determinant of a matrix
+% \begin{equation}
+%
+% \end{equation}
+%
+% \begin{equation}
+%
+% \end{equation}
 \subsection{Matrix Properties}
+\subsubsection{Norms}
+\subsubsection{Linear Dependence and Rank}
+\subsubsection{Span, Range, and Nullspace}
+\subsubsection{Symmetric Matrices}
+\subsubsection{Positive Semidefinite Matrices}
+\subsubsection{Eigenvalues and Eigenvectors}
+\subsubsection{Single Value Decomposition}
+
 \subsection{Matrix Calculus}
+\subsubsection{The Gradient}
+Let $f:\mathbb{R}^{m\times n}\rightarrow\mathbb{R}$ be a function and
+$A \in \mathbb{R}^{m \times n}$ be a matrix. The gradient of $f$ with respect to
+$A$ is a $m \times n$ matrix noted as $\nabla_A f(A)$ such that:
+\begin{equation}
+  \nabla _ { A } f ( A ) \in \mathbb { R } ^ { m \times n } = \left(
+  \begin{array} { c c c c } { \frac { \partial f ( A ) } { \partial A _ { 11 } } } & { \frac { \partial f ( A ) } { \partial A _ { 12 } } } & { \cdots } & { \frac { \partial f ( A ) } { \partial A _ { 1 } } } \\ { \frac { \partial f ( A ) } { \partial A _ { 21 } } } & { \frac { \partial f ( A ) } { \partial A _ { 22 } } } & { \cdots } & { \frac { \partial f ( A ) } { \partial A _ { 2 n } } } \\ { \vdots } & { \vdots } & { \ddots } & { \vdots } \\ { \frac { \partial f ( A ) } { \partial A _ { m 1 } } } & { \frac { \partial f ( A ) } { \partial A _ { m 2 } } } & { \cdots } & { \frac { \partial f ( A ) } { \partial A _ { m n } } } \end{array} \right)
+\end{equation}
+Or compactly for each $ij$ entry:
+\begin{equation}
+  \nabla _ { A } f ( A ) _ { i j } = \frac { \partial f ( A ) } { \partial A _ { i j } }
+\end{equation}
+However, the gradient of a vector $x \in \mathbb{R}^n$ is:
+\begin{equation}
+  \nabla _ { x } f ( x ) = \left( \begin{array} { c } { \frac { \partial f ( x ) } { \partial x _ { 1 } } } \\ { \frac { \partial f ( x ) } { \partial x _ { 2 } } } \\ { \vdots } \\ { \frac { \partial f ( x ) } { \partial x _ { n } } } \end{array} \right)
+\end{equation}
+\subsubsection{The Hessian}
+Let $f:\mathbb{R}^{n}\rightarrow\mathbb{R}$ be a function and
+$x \in \mathbb{R}^{n}$ be a vector. The hessian of $f$ with respect to
+$x$ is a $n \times n$ symmetric matrix noted as $H = \nabla_x^2 f(x)$ such that:
+\begin{equation}
+  \nabla _ { x } ^ { 2 } f ( x ) \in \mathbb { R } ^ { n \times n } = \left( \begin{array} { c c c c } { \frac { \partial ^ { 2 } f ( x ) } { \partial x _ { 1 } ^ { 2 } } } & { \frac { \partial ^ { 2 } f ( x ) } { \partial x _ { 2 } } } & { \cdots } & { \frac { \partial ^ { 2 } f ( x ) } { \partial x _ { 1 } \partial x _ { n } } } \\ { \frac { \partial ^ { 2 } f ( x ) } { \partial x _ { 2 } \partial x _ { 1 } } } & { \frac { \partial ^ { 2 } f ( x ) } { \partial x _ { 2 } ^ { 2 } } } & { \cdots } & { \frac { \partial ^ { 2 } f ( x ) } { \partial x _ { 2 } \partial x _ { n } } } \\ { \vdots } & { \vdots } & { \ddots } & { \vdots } \\ { \frac { \partial ^ { 2 } f ( x ) } { \partial x _ { n } \partial x _ { 1 } } } & { \frac { \partial ^ { 2 } f ( x ) } { \partial x _ { n } \partial x _ { 2 } } } & { \cdots } & { \frac { \partial ^ { 2 } f ( x ) } { \partial x _ { n } ^ { 2 } } } \end{array} \right)
+\end{equation}
+Or compactly:
+\begin{equation}
+  \nabla _ { x } ^ { 2 } f ( x ) _ { i j } = \frac { \partial ^ { 2 } f ( x ) } { \partial x _ { i } \partial x _ { j } }
+\end{equation}
+Note that the hessian is only defined when $f(x)$ is real-valued.
+\subsubsection{Gradient Operations}
+
+
+
 %------------------------------------------------
 \section{Convex Optimization}
 \subsection{Convexity}
@@ -153,8 +290,8 @@ for a probability distribution $P$ as:
 \begin{equation}
   I(x) = -\log P(x)
 \end{equation}
-We can quantify the amount of uncertainty in a distribution using Shannon
-Entropy:
+We can quantify the amount of uncertainty in a
+distribution using Shannon entropy:
 \begin{equation}
   H ( P ) = \mathbb { E } _ { \mathrm { x } \sim P } [ I ( x ) ] = - \mathbb { E } _ { \mathrm { x } \sim P } [ \log P ( x ) ]
 \end{equation}
@@ -480,6 +617,8 @@ as the jacobian $\mathbf{J}$, with $k$ classes each with $n$ feature weights.
 %------------------------------------------------
 \section{Support Vector Machines}
 %------------------------------------------------
+\section{Margin Classification}
+%------------------------------------------------
 \section{Generative Learning: Gaussian Discriminant Analysis}
 \subsection{Assumptions}
 \subsection{Estimation}
@@ -494,14 +633,73 @@ as the jacobian $\mathbf{J}$, with $k$ classes each with $n$ feature weights.
 %------------------------------------------------
 %------------------------------------------------
 \section{K-Means Clustering}
+CLustering seeks to group similiar points of data together in a cluster. We
+denote $c^{(i)}$ as the cluster for data point $i$ and $\mu_j$ as the center
+for cluster $j$. We denote $k$ as the number of clusters and $n$ as the
+dimension of our data.
+\subsection{Algorithm}
+After randomly initializing the cluster centroids
+$\mu_1, \mu_2, \hdots, \mu_k \in \mathbb{R}^n$, repeat until convergence:
+\begin{enumerate}
+  \item For every data point $i$:
+    \begin{equation}
+      c^{(i)}=\underset{j}{\textrm{arg min}}||x^{(i)}-\mu_j||^2
+    \end{equation}
+  \item For each cluster $j$:
+    \begin{equation}
+      \mu_j=\frac{\displaystyle\sum_{i=1}^m1_{\{c^{(i)}=j\}}x^{(i)}}{\displaystyle\sum_{i=1}^m1_{\{c^{(i)}=j\}}}
+    \end{equation}
+\end{enumerate}
+The first step is known as cluster assignment, and the second updates the
+cluster center (i.e. the average of all points in the cluster). In order to
+see if it converges, use the distortion function:
+\begin{equation}
+  J(c,\mu)=\sum_{i=1}^m||x^{(i)}-\mu_{c^{(i)}}||^2
+\end{equation}
+The distortion function $J$ is non-convex, and coordinate descent of $J$ is not
+guaranteed to converge to the global minimum (i.e. susceptible to local optima).
 \subsection{Hierarchical Clustering}
+Hierarchical clustering is a clustering algorithm with an agglomerative
+hierarchical approach that builds nested clusters in a successive manner. The
+types are:
+\begin{enumerate}
+  \item Ward Linkage: minimize within cluster distance
+  \item Average Linkage: minimize average distance between cluster pairs
+  \item Complete Linkage: minimize maximum distance between cluster pairs
+\end{enumerate}
 \subsection{Clustering Metrics}
+In an unsupervised learning setting, it is often hard to assess the
+performance of a model since we don't have the ground truth labels as was
+the case in the supervised learning setting.
+\paragraph{Silhouette coefficient} By noting $a$ and $b$ the
+mean distance between a sample and all other points in the same class,
+and between a sample and all other points in the next nearest cluster,
+the silhouette coefficient $s$ for a single sample is defined as follows:
+\begin{equation}
+  s = \frac{b - a}{\max(a, b)}
+\end{equation}
+\paragraph{Calinskli-Harabaz Index} By noting $k$ the number of clusters, $B_k$
+and $W_k$ the between and within-clustering dispersion matricies defined as:
+\begin{equation}
+  B_k=\sum_{j=1}^kn_{c^{(i)}}(\mu_{c^{(i)}}-\mu)(\mu_{c^{(i)}}-\mu)^T
+\end{equation}
+\begin{equation}
+  W_k=\sum_{i=1}^m(x^{(i)}-\mu_{c^{(i)}})(x^{(i)}-\mu_{c^{(i)}})^T
+\end{equation}
+the Calinksli-Harabaz index $s(k)$ indicated how well a clustering model
+defines its clusters, such that higher scores indicate more dense and well
+separated cluster assignments. It is defined as:
+\begin{equation}
+  s(k)=\frac{\textrm{Tr}(B_k)}{\textrm{Tr}(W_k)}\times\frac{N-k}{k-1}
+\end{equation}
 %------------------------------------------------
 \section{Expectation-Maximization}
 \subsection{Mixture of Gaussians}
 \subsection{Factor Analysis}
 %------------------------------------------------
 \section{Principal Component Analysis}
+\subsection{Eigenvalues, Eigenvectors, and the Spectral Theorem}
+\subsection{Algorithm}
 %------------------------------------------------
 \section{Independent Component Analysis}
 %------------------------------------------------
@@ -525,6 +723,7 @@ as the jacobian $\mathbf{J}$, with $k$ classes each with $n$ feature weights.
 \subsubsection{Elman RNN}
 \subsubsection{Long Short-Term Memory}
 \subsubsection{Gated Recurrent Unit}
+\subsubsection{Bidirectional RNNs}
 \subsection{Autoencoders}
 \subsubsection{Variational Autoencoders}
 \subsection{General Adversarial Networks}

@@ -422,10 +422,51 @@ The softmax function creates a probability distribution over a set of $k$
 classes for a training example $x$, with $\theta_k$ denoting the set of
 parameters to be optimzed for the $k$-th class.
 \begin{equation}
-  P(y=k | x; \theta) = \frac{\exp \left(\theta_k^T x \right)}{\sum_j \exp \left( \theta_j^T x \right)}
+  p(y=k | x; \theta) = \frac{\exp \left(\theta_k^T x \right)}{\sum_j \exp \left( \theta_j^T x \right)}
 \end{equation}
 \subsection{MLE and Cost Function}
+We can write the maximum likelihood function for softmax regression as:
+\begin{equation}
+  L(\theta) = \prod_{i=1}^m \prod_k p(y=k|x; \theta)^{\mathbf{1}\{y_i=k\}}
+\end{equation}
+Where $\mathbf{1} \{y_i=k\}$ is the indicator function which is $1$ if its
+argument is true, $0$ otherwise.
+By taking the negative log likelihood:
+\begin{equation}
+  \begin{aligned}
+    \ell ( \theta ) \quad & = \quad -\log L ( \theta ) \\
+    & = \quad - \log \prod_{i=1}^m \prod_k p(y=k|x; \theta)^{\mathbf{1}\{y_i=k\}} \\
+    & = \quad -\sum_{i=1}^m \sum_k \left( \mathbf{1}\{y_i=k\} \cdot \left( \theta^T_k x_i - \log \left( \sum_j \exp \left( \theta_j^T x_i \right) \right) \right) \right) \\
+    & = \quad \sum_{i=1}^m -\theta^T_{y_i} x_i + \log \left( \sum_j \exp \left( \theta_j^T x_i \right) \right) \\
+  \end{aligned}
+\end{equation}
+This is known as the cross-entropy loss function.
 \subsection{Gradient Descent}
+To perform gradient descent, we must take the derivative of our cost function,
+but it is important to note that the derivative for the correct class is
+different than the other classes.
+\begin{equation}
+  \begin{aligned}
+    \nabla_{\theta_j} \ell(\theta) \quad & = \quad \nabla_{\theta_j} \left( \sum_{i=1}^m -\theta^T_{y_i} x_i + \log \left( \sum_k \exp \left( \theta_k^T x_i \right) \right) \right) \\
+      & = \quad \sum_{i=1}^m \nabla_{\theta_j} \left( -\theta^T_{y_i} x_i \right)  +  \nabla_{\theta_j} \left( \log \left( \sum_k \exp \left( \theta_k^T x_i \right) \right) \right) \\
+      & = \quad \sum_{i=1}^m \mathbf{1}\{y_i=j\} \cdot (-x_i) + \frac{\exp(\theta_j^T x_i)}{\sum_k \exp(\theta_k^T x_i)} \cdot x_i \\
+      & = \quad \sum_{i=1}^m \left(\frac{\exp(\theta_j^T x_i)}{\sum_k \exp(\theta_k^T x_i)} -  \mathbf{1}\{y_i=j\} \right) \cdot x_i \\
+  \end{aligned}
+\end{equation}
+And our update equation for the $j$-th parameter weights is:
+\begin{equation}
+  \theta_{j} : = \theta_{j} - \alpha \left( \frac{\exp(\theta_j^T x_i)}{\sum_k \exp(\theta_k^T x_i)} -  \mathbf{1}\{y_i=j\} \right) \cdot x_i
+\end{equation}
+Note that since each class has a set of weights, our gradient is a matrix known
+as the jacobian $\mathbf{J}$, with $k$ classes each with $n$ feature weights.
+\begin{equation}
+  \mathbf{J}_{\theta} =
+    \left[
+      \begin{array} { c c c } {\frac { \partial \ell(\theta)  } { \partial \theta _ { 1 } } } & { \cdots } & { \frac { \partial \ell(\theta) } { \partial \theta _ { k } } } \end{array}
+    \right] = \left[
+      \begin{array} { c c c } {\frac { \partial \ell(\theta) } { \partial \theta _ { 11 } } } & { \cdots } & { \frac { \partial \ell(\theta) } { \partial \theta _ { k1} } } \\ { \vdots } & { \ddots } & { \vdots } \\ { \frac { \partial \ell(\theta) } { \partial \theta _ { 1n } } } & { \cdots } & { \frac { \partial \ell(\theta) } { \partial \theta _ { kn } } } \end{array}
+    \right]
+\end{equation}
 %------------------------------------------------
 \section{Generalized Linear Models}
 \subsection{Exponentional Family}

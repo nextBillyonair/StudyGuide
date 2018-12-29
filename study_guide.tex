@@ -891,24 +891,125 @@ Other properties:
   \psi(\omega) = e^{i\omega\mu-\frac{1}{2}\omega^2\sigma^2}
 \end{equation}
 \subsection{Jointly Distributed Random Variables}
+The joint probability distribution of two random variables $X$ and $Y$, denoted
+as $f_{XY}$ is defined as:
+\begin{equation}
+  \mbox{(D)}\quad f_{XY}(x_i,y_j)=P(X=x_i\mbox{ and }Y=y_j)
+\end{equation}
+\begin{equation}
+  \mbox{(C)}\quad f_{XY}(x,y)\Delta x\Delta y=P(x\leqslant X\leqslant x+\Delta x\mbox{ and }y\leqslant Y\leqslant y+\Delta y)
+\end{equation}
+Again, denote $\mbox{(D)}$ as the discrete case, and $\mbox{(C)}$ as the
+continuous case.
 \subsubsection{Marginal Density}
+The marginal density for a random variable $X$ is:
+\begin{equation}
+  \mbox{(D)}\quad f_X(x_i)=\sum_{j}f_{XY}(x_i,y_j) \quad\quad\mbox{and}\quad\mbox{(C)}\quad f_X(x)=\int_{-\infty}^{+\infty}f_{XY}(x,y)dy
+\end{equation}
 \subsubsection{Cumulative Distribution}
+The cumulative distribution $F_{XY}$ is:
+\begin{equation}
+  \mbox{(D)}\quad F_{XY}(x,y)=\sum_{x_i\leqslant x}\sum_{y_j\leqslant y}f_{XY}(x_i,y_j) \quad\quad\mbox{and}\quad\mbox{(C)}\quad F_{XY}(x,y)=\int_{-\infty}^x\int_{-\infty}^yf_{XY}(x',y')dx'dy'
+\end{equation}
 \subsubsection{Conditional Density}
+The conditional density of $X$ with respect to $Y$, denoted $f_{X|Y}$ is
+defined as:
+\begin{equation}
+  f_{X|Y} = \frac{f_{XY}(x, y)}{f_Y(y)}
+\end{equation}
 \subsubsection{Independence}
-\subsubsection{Expectation and Covariance}
+Two random variables $X$ and $Y$ are independent if:
+\begin{equation}
+  f_{XY}(x,y) = f_X(x)f_Y(y)
+\end{equation}
+\subsubsection{Expectation}
+Given two random variables $X,Y$ and $g : \mathbb{R}^2 \to \mathbb{R}$ is a
+function of these two variables. Then the expected value of $g$ is:
+\begin{equation}
+  \mbox{(D)}\quad\mathbb{E}[g(X, Y)] = \sum_i \sum_j g(x_i, y_i) f(x_i, y_i) \quad\quad\mbox{and}\quad\mbox{(C)}\quad\mathbb{E}[g(X, Y)] = \int_{-\infty}^{\infty}\int_{-\infty}^{\infty} g(x_i, y_i) f(x_i, y_i) dy dx
+\end{equation}
+\subsubsection{Covariance}
+The covariance of two random variables $X$ and $Y$, denoted $\sigma^2_{XY}$ or
+as $\mbox{Cov}[X, Y]$ is defined as:
+\begin{equation}
+  \mbox{Cov}[X,Y]\triangleq\sigma_{XY}^2=\mathbb{E}[(X-\mu_X)(Y-\mu_Y)]=\mathbb{E}[XY]-\mu_X\mu_Y
+\end{equation}
+Where $\mu_X = \mathbb{E}[X]$ and $\mu_Y = \mathbb{E}[Y]$ respectively. If $X$
+and $Y$ are independent, the covariance is $0$.
+\begin{equation}
+  \mbox{Var}[X + Y] = \mbox{Var}[X] + \mbox{Var}[Y] + 2 \mbox{Cov}[X, Y]
+\end{equation}
 \subsubsection{Correlation}
+By noting $\sigma_X$, $\sigma_Y$ as the standard deviations of $X$ and $Y$, we
+define the correlation between the random variables $X$ and $Y$ as $\rho_{XY}$:
+\begin{equation}
+  \rho_{XY} = \frac{\sigma_{XY}^2}{\sigma_{X}\sigma_{Y}}
+\end{equation}
+Correlation for $X, Y$ is $\rho_{XY} \in [-1, 1]$. If $X,Y$ independent, then
+$\rho_{XY}=0$
 \subsection{Parameter Estimation}
 \subsubsection{Definitions}
 \subsubsection{Bias}
 \subsubsection{Mean and Central Limit Theorem}
 \subsubsection{Variance}
+
 \subsection{Probability Bounds and Inequalities}
+This section looks at various bounds that define how likely a random variable
+is to be close to its expectation.
 \subsubsection{Markov}
+Let $X \geq 0$ be a non-negative random variable. Then for all $a \geq 0$:
+\begin{equation}
+  P(X \geq a) \leq \frac{\mathbb{E}[X]}{a}
+\end{equation}
 \subsubsection{Chebyshev}
+Let $X$ be any random variable with finite expected value $\mu = \mathbb{E}[X]$
+and finite non-zero variance $\sigma^2$.
+Then for all $k > 0$:
+\begin{equation}
+  P(|X - \mathbb{E}[X]| \geq k \sigma) \leq \frac{1}{k^2}
+\end{equation}
 \subsubsection{Chernoff}
+Recall that the moment generating function for a random variable $X$ is:
+\begin{equation}
+  M_X(\lambda) := \mathbb{E}[e^{\lambda X}]
+\end{equation}
+Then the chernoff bound for a random variable $X$, obtained by applying the
+markov inequality to $e^{\lambda X}$, for every $\lambda > 0$:
+\begin{equation}
+  P(X \geq a) = P(e^{\lambda X} \geq e^{\lambda a}) \leq \frac{\mathbb{E}[e^{\lambda X}]}{e^{\lambda a}}
+\end{equation}
+For the multiplicative chernoff bound, suppose $X_1, \hdots, X_n$ are independent
+random variables taking values in $\{0, 1\}$. Let $X$ denote the sum, $\mu=\mathbb{E}[X]$
+denote the sum's expected value. Then for any $0 < \delta < 1$,
+\begin{equation}
+  P(X > (1+\delta) \mu ) < \left( \frac{e^{\delta}}{(1+\delta)^{(1+\delta)}} \right)^{\mu} \leq e^{-\frac{\delta^2 \mu}{3}}
+\end{equation}
+\begin{equation}
+  P(X < (1-\delta) \mu ) < \left( \frac{e^{-\delta}}{(1-\delta)^{(1-\delta)}} \right)^{\mu} \leq e^{-\frac{\delta^2 \mu}{2}}
+\end{equation}
+For $\delta \geq 0$,
+\begin{equation}
+  P(X \geq (1+\delta) \mu ) \leq e^{-\frac{\delta^2 \mu}{2+\delta}}
+\end{equation}
+\begin{equation}
+  P(X \leq (1-\delta) \mu ) \leq e^{-\frac{\delta^2 \mu}{2}}
+\end{equation}
 \subsubsection{Hoeffding}
-
-
+Let $X_1, \hdots, X_n$ be independent random variables such that $a_i \leq X_i \leq b_i$.
+The sum of these variables $S_n = \sum_i X_i$, then the Hoeffding
+inequality is:
+\begin{equation}
+  P\left(S_n - \mathbb{E}\left[S_n\right] \geq t \right) \leq \exp\left(-\frac{2t^2}{\sum_i(b_i-a_i)^2}\right)
+\end{equation}
+\begin{equation}
+  P\left(\left|S_n - \mathbb{E}\left[S_n\right]\right| \geq t \right) \leq 2\exp\left(-\frac{2t^2}{\sum_i(b_i-a_i)^2}\right)
+\end{equation}
+The hoeffding lemma states that for a real-valued random variable $X$ with expected
+value $\mathbb{E}[X] = 0$ and such that $a \leq X \leq b$, then for all
+$\lambda \in \mathbb{R}$ we have,
+\begin{equation}
+  \mathbb{E}[e^{\lambda X}] \leq \exp\left(\frac{\lambda^2(b-a)^2}{8}\right)
+\end{equation}
 \section{Information Theory}
 Information Theory revolves around quantifying how much information is present
 in a signal. The basic intuition lies in the fact that learning an unlikely

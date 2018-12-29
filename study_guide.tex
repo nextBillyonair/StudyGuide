@@ -637,29 +637,263 @@ These conditions are known as the Karush-Kuhn-Tucker (KKT) conditions.
 %------------------------------------------------
 \section{Probability and Statistics}
 \subsection{Basics}
+The set of all possible outcomes of an experiment is known as the sample space
+and denoted by $S$. Any subset $E$ of the sample space is known as an event.
+An event is a set consisting of possible outcomes of the experiment.
 \subsubsection{Axioms of Probability}
+For each event $E$, we denote $P(E)$ as the probability of event $E$ occuring.
+$P(E)$ satisfies the following properties:
+\begin{enumerate}
+  \item Every probability is between 0 and 1 included:
+    \begin{equation} 0 \leq P(E) \leq 1 \end{equation}
+  \item The probability that at least one event in the sample space will occur
+  is $1$: \begin{equation} P(S) = 1 \end{equation}
+  \item For any sequence of mutually exclusive events $E_1,\hdots,E_n$ we have:
+    \begin{equation} P\left(\bigcup_{i=1}^nE_i\right)=\sum_{i=1}^nP(E_i) \end{equation}
+\end{enumerate}
 \subsubsection{Permutation}
+A permutation is an arrangement of $r$ objects from a pool of $n$ objects, in
+a given order. The number of such arrangements is given by $P(n, r)$:
+\begin{equation} P(n, r) = \frac{n!}{(n-r)!} \end{equation}
 \subsubsection{Combination}
+A combination is an arrangement of $r$ objects from a pool of $n$ objects, where
+order does not matter. The number of such arrangements is given by $C(n, r)$:
+\begin{equation} C(n, r) = \frac{P(n, r)}{r!} = \frac{n!}{r! (n-r)!} \end{equation}
+Note that for $0 \leq r \leq n$ we have $P(n, r) \geq C(n, r)$.
 \subsection{Conditional Probability}
+Let $B$ be an event with non-zero probability, the conditional proability of
+any event $A$ given $B$ is:
+\begin{equation} P(A | B) = \frac{P(A \cap B)}{P(B)} \end{equation}
 \subsubsection{Bayes Rule}
+For events $A, B$ such that $P(B) > 0$, we have:
+\begin{equation} P(A | B) = \frac{P(B|A) P(A)}{P(B)} \end{equation}
+From Bayes rule, we have:
+\begin{equation} P(A \cap B) = P(A|B)P(B) = P(A)P(B|A) \end{equation}
+Let $\{ A_i, i \in [1, n] \}$ be such that for all $i$, $A_i \not= \varnothing$.
+We say that $\{A_i\}$ is a partition if we have:
+\begin{equation} \forall i\neq j, A_i\cap A_j=\emptyset\quad\mbox{ and }\quad\bigcup_{i=1}^nA_i=S \end{equation}
+Remark that for any event $B$ in the sample space, we have:
+\begin{equation} P(B)=\sum_{i=1}^n P(B|A_i)P(A_i) \end{equation}
+Let $\{ A_i, i \in [1, n] \}$ be a partition of the sample space, we can
+extend bayes rule as:
+\begin{equation} P(A_k|B)=\frac{P(B|A_k)P(A_k)}{\displaystyle\sum_{i=1}^nP(B|A_i)P(A_i)} \end{equation}
 \subsubsection{Independence}
+Two events $A$ and $B$ are independent if and only if we have:
+\begin{equation} P(A \cap B) = P(A) P(B) \end{equation}
 \subsection{Random Variables}
+A random variable $X$ is a function that maps every element in a sample space
+to a real line.
+\subsubsection{Cumulative Distribution Function (CDF)}
+The cumulative distribution function $F$, which is monotonically non-decreasing
+and is such that $\lim_{x \to -\infty}F(X) = 0$ and $\lim_{x \to \infty}F(X) = 1$
+is defined as:
+\begin{equation} F(x) = P(X \leq x) \end{equation}
+In addition:
+\begin{equation} P(a < X \leq b) = F(b) - F(a) \end{equation}
+\subsubsection{Probability Density Function (PDF)}
+The probability density function is the derivative of the CDF.
+It has the following properties:
+\begin{enumerate}
+  \item $f(x) \geq 0$
+  \item $\int^{\infty}_{-\infty} f(x) = 1$
+  \item $\int_{x \in A} f(x) dx = P(X \in A)$
+\end{enumerate}
+\subsubsection{Discrete PDF/CDF}
+If $X$ is discrete, by denoting $f$ as the PDF and $F$ as the CDF, we have:
+\begin{equation}
+  F(X) = \sum_{x_i \leq x} P(X = x_i)
+\end{equation}
+\begin{equation}
+  f(x_j) = P(X = x_j)
+\end{equation}
+And the following properties for the PDF:
+\begin{equation}
+  0 \leq f(x_j) \leq 1
+\end{equation}
+\begin{equation}
+  \sum_j f(x_j) = 1
+\end{equation}
+\subsubsection{Continuous PDF/CDF}
+If $X$ is continuous, by denoting $f$ as the PDF and $F$ as the CDF, we have:
+\begin{equation}
+  F(X) = \int_{-\infty}^x f(y) dy
+\end{equation}
+\begin{equation}
+  f(x) = \frac{dF}{dx}
+\end{equation}
+And the following properties for the PDF:
+\begin{equation}
+  f(x) \geq 0
+\end{equation}
+\begin{equation}
+  \int_{-\infty}^{\infty} f(x) dx = 1
+\end{equation}
 \subsubsection{Expectation}
+The expected value of a random variable, also known as the mean value or
+first moment, is denoted as $E[X]$ or $\mu$. It is the value obtained by
+averaging the results of a random variable.
+We use $\mbox{(D)}$ for discrete, $\mbox{(C)}$ for continuous.
+\begin{equation}
+  \mbox{(D)}\quad E[X]=\sum_{i=1}^nx_if(x_i)\quad\quad\mbox{and}\quad\mbox{(C)}\quad E[X]=\int_{-\infty}^{+\infty}xf(x)dx
+\end{equation}
+The expected value of a function of a random variable $g(X)$ is:
+\begin{equation}
+  \mbox{(D)}\quad E[g(X)]=\sum_{i=1}^ng(x_i)f(x_i)\quad\quad\mbox{and}\quad\mbox{(C)}\quad E[g(X)]=\int_{-\infty}^{+\infty}g(x)f(x)dx
+\end{equation}
+The $k$-th moment, noted $E[X^k]$ is the value of $X^k$ that we expect to observe
+on average on infinitely many trials. The $k$-th moment is a case of the previous
+definition with $g \,:\, X \mapsto X^k$.
+\begin{equation}
+  \mbox{(D)}\quad E[X^k]=\sum_{i=1}^nx_i^kf(x_i) \quad\quad\mbox{and}\quad\mbox{(C)}\quad E[X^k]=\int_{-\infty}^{+\infty}x^kf(x)dx
+\end{equation}
+A characteristic function $\psi(\omega)$ is derived from a probability density
+function $f(x)$ and is defined as:
+\begin{equation}
+  \mbox{(D)}\quad \psi(\omega)=\sum_{i=1}^nf(x_i)e^{i\omega x_i} \quad\quad\mbox{and}\quad\mbox{(C)}\quad \psi(\omega)=\int_{-\infty}^{+\infty}f(x)e^{i\omega x}dx
+\end{equation}
+Remark that $e^{i\omega x} = \cos(\omega x)+ i \sin(\omega x)$. The $k$-th moment
+can also be computed with the characteristic function as:
+\begin{equation}
+  E[X^k]=\frac{1}{i^k}\left[\frac{\partial^k\psi}{\partial\omega^k}\right]_{\omega=0}
+\end{equation}
 \subsubsection{Variance and Standard Deviation}
-\subsubsection{Moment Generating Functions}
+The variance of a random variable, often noted $\mbox{Var}(X)$ or $\sigma^2$,
+is a measure of the spread of its distribution function.
+It is determined as follows:
+\begin{equation}
+  \mbox{Var}[X]=E[(X-E[X])^2]=E[X^2]-E[X]^2
+\end{equation}
+The standard deviation of a random variable, often noted $\sigma$, is a
+measure of the spread of its distribution function which is
+compatible with the units of the actual random variable.
+It is determined as follows:
+\begin{equation}
+  \sigma = \sqrt{\mbox{Var}[X]}
+\end{equation}
+Note that the variance for any constant $a$ is $\mbox{Var}[a]= 0$, and
+$\mbox{Var}[af(X)]=a^2\mbox{Var}[f(X)]$.
 \subsection{Discrete Random Variables}
 \subsubsection{Bernoulli}
+For $X\sim Bernoulli(p)$, we define a binary event with a probability of $p$
+for a true event, and a false event with probability of $q=1-p$.
+\begin{equation}
+  P(X=x) = \begin{cases} q=1-p & \textrm{if } x=0 \\ p & \textrm{if } x=1 \end{cases}
+\end{equation}
+It can also be expressed as:
+\begin{equation}
+  f(x; p) = p^k (1-p)^{1-k} \quad \mbox{for } k\in \{0, 1\}
+\end{equation}
+Other properties:
+\begin{equation}
+  E[X] = p
+\end{equation}
+\begin{equation}
+  \mbox{Var}[X] = pq = p (1-p)
+\end{equation}
+\begin{equation}
+  \psi(\omega) = (1-p) + p e^{i\omega}
+\end{equation}
 \subsubsection{Binomial}
+For $X\sim Binomial(n, p)$, the number of true events in $n$ independent
+experiments, with true probability of $p$, false probability of $q=1-p$.
+\begin{equation}
+  \displaystyle P(X=x)=\displaystyle\binom{n}{x} p^x(1-p)^{n-x}
+\end{equation}
+Other properties:
+\begin{equation}
+  E[X] = np
+\end{equation}
+\begin{equation}
+  \mbox{Var}[X] = npq = np(1-p)
+\end{equation}
+\begin{equation}
+  \psi(\omega) = (pe^{i\omega}+(1-p))^n
+\end{equation}
 \subsubsection{Geometric}
+For $X\sim Geometric(p)$, is the number of experiments with true
+probability of $p$ until the first true event (number of trials to get one success).
+\begin{equation}
+  \displaystyle P(X=x)=p(1-p)^{x-1}
+\end{equation}
+Other properties:
+\begin{equation}
+  E[X] = \frac{1}{p}
+\end{equation}
+\begin{equation}
+  \mbox{Var}[X] = \frac{1-p}{p^2}
+\end{equation}
+\begin{equation}
+  \psi(\omega) = \frac{pe^{i \omega}}{1-(1-p)e^{i \omega}}
+\end{equation}
 \subsubsection{Poisson}
+For $X\sim Poisson(\lambda)$, for $\lambda > 0$, a probability distribution
+over the nonnegative integers
+used for modeling the frequency of rare events.
+\begin{equation}
+  \displaystyle P(X=x)=\frac{\lambda^x}{x!}e^{-\lambda}
+\end{equation}
+Other properties:
+\begin{equation}
+  E[X] = \lambda
+\end{equation}
+\begin{equation}
+  \mbox{Var}[X] = \lambda
+\end{equation}
+\begin{equation}
+  \psi(\omega) = e^{\lambda(e^{i\omega}-1)}
+\end{equation}
 \subsection{Continuous Random Variables}
 \subsubsection{Uniform}
-\subsubsection{Exponentional}
+For $X\sim Uniform(a,b)$, we have equal probability density to every value
+between $a$ and $b$.
+\begin{equation}
+  f(x) = \begin{cases} \frac{1}{b-a} & \textrm{if } a \leq x \leq b \\ 0 & \textrm{otherwise} \end{cases}
+\end{equation}
+Other properties:
+\begin{equation}
+  E[X] = \frac{a+b}{2}
+\end{equation}
+\begin{equation}
+  \mbox{Var}[X] = \frac{(b-a)^2}{12}
+\end{equation}
+\begin{equation}
+  \psi(\omega) = \displaystyle\frac{e^{i\omega b}-e^{i\omega a}}{(b-a)i\omega}
+\end{equation}
+\subsubsection{Exponential}
+For $X\sim Exponential(\lambda)$, $\lambda > 0$, is the
+decaying probability density over the nonnegative reals.
+\begin{equation}
+  f(x) = \begin{cases} \lambda e^{-\lambda x} & \textrm{if } x \geq 0 \\ 0 & \textrm{otherwise} \end{cases}
+\end{equation}
+Other properties:
+\begin{equation}
+  E[X] = \frac{1}{\lambda}
+\end{equation}
+\begin{equation}
+  \mbox{Var}[X] = \frac{1}{\lambda^2}
+\end{equation}
+\begin{equation}
+  \psi(\omega) = \displaystyle\frac{1}{1-\frac{i\omega}{\lambda}}
+\end{equation}
 \subsubsection{Gaussian (Normal)}
+For $X\sim Normal(\mu, \sigma)$, denoted also $X \sim \mathcal{N}(\mu, \sigma)$.
+\begin{equation}
+  \displaystyle f(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}
+\end{equation}
+Other properties:
+\begin{equation}
+  E[X] = \mu
+\end{equation}
+\begin{equation}
+  \mbox{Var}[X] = \sigma^2
+\end{equation}
+\begin{equation}
+  \psi(\omega) = e^{i\omega\mu-\frac{1}{2}\omega^2\sigma^2}
+\end{equation}
 \subsection{Jointly Distributed Random Variables}
 \subsubsection{Marginal Density}
+\subsubsection{Cumulative Distribution}
 \subsubsection{Conditional Density}
-\subsubsection{Bayes Rule}
 \subsubsection{Independence}
 \subsubsection{Expectation and Covariance}
 \subsubsection{Correlation}
@@ -736,13 +970,18 @@ Minimizing the cross-entropy with respect to $Q$ is equivalent to
 minimizing the KL divergence, because $Q$ does not participate in the
 omitted term (entropy is constant).
 %------------------------------------------------
-\section{Machine Learning Basics} %Or learning theory?
-\subsection{Notation}
-\subsection{Types of Learning}
-\subsection{Metrics}
-\subsubsection{Classification}
-\subsubsection{Regression}
+\section{Learning Theory}
 \subsection{Bias and Variance}
+\subsection{Notation}
+\subsubsection{Union Bound}
+\subsubsection{Hoeffding Inequality}
+\subsection{Training Error}
+\subsection{Probably Approximately Correct (PAC)}
+\subsection{Hypothesis Classes}
+\subsubsection{Shattering}
+\subsubsection{Upper Bound Theorem}
+\subsubsection{VC Dimension}
+\subsubsection{Vapnik Theorem}
 %------------------------------------------------
 \section{Linear Regression}
 Linear Regression seeks to approximate a real valued label $y$ as a
@@ -1032,8 +1271,23 @@ as the jacobian $\mathbf{J}$, with $k$ classes each with $n$ feature weights.
 \section{Tree-based Methods}
 %------------------------------------------------
 \section{K-Nearest Neighbors}
+The $k$-nearest neighbors algorithm, commonly known as
+$k$-NN, is a non-parametric approach where the response of a data point
+is determined by the nature of its $k$ neighbors from the training set.
+It can be used in both classification and regression settings.
+The higher the parameter $k$, the higher the bias, and the lower the parameter
+$k$, the higher the variance.
 \subsection{Classification}
+In $k$-NN classification, the output is a class membership. An object is
+classified by a majority vote of its neighbors, with the object being assigned
+to the class most common among its $k$ nearest neighbors ($k$ is a positive integer,
+typically small). If $k = 1$, then the object is simply assigned to the class
+of that single nearest neighbor.
 \subsection{Regression}
+In $k$-NN regression, the output is the property value for the object.
+This value is the average of the values of its k nearest neighbors.
+\begin{equation} y = \frac{1}{k} \sum_{x_i \in \mathcal{N}_k(x)} y_i \end{equation}
+where $\mathcal{N}_k(x)$ is the $k$ nearest points around $x$.
 %------------------------------------------------
 \section{K-Means Clustering}
 CLustering seeks to group similiar points of data together in a cluster. We
@@ -1101,8 +1355,44 @@ separated cluster assignments. It is defined as:
 \subsection{Factor Analysis}
 %------------------------------------------------
 \section{Principal Component Analysis}
+Principal Component Analysis is a dimension reduction technique that finds
+the variance maximizing the directions onto which to project the data.
 \subsection{Eigenvalues, Eigenvectors, and the Spectral Theorem}
+Recall that for a given matrix $A\in \mathbb{R}^{n \times n}$, $\lambda$ is said
+to be an eigenvalue of $A$ if there exists a vector
+$z \in \mathbb{R}^n \backslash \{ 0 \}$, called an eigenvector, such that:
+\begin{equation}
+  Az=\lambda z
+\end{equation}
+The spectral theorem states that given matrix $A\in \mathbb{R}^{n \times n}$, if
+$A$ is symmetric then $A$ is diagonalizable by a real orthogonal matrix
+$U\in \mathbb{R}^{n \times n}$. Note
+$\Lambda = \textrm{diag}(\lambda_1, \hdots, \lambda_n)$. Then $\exists \, \Lambda$
+such that:
+\begin{equation}
+  A=U\Lambda U^T
+\end{equation}
+Note that the eigenvector associated with the largest eigenvalue is called the
+principal eigenvector of matrix $A$.
 \subsection{Algorithm}
+The PCA procedure projects the data onto $k$ dimensions by maximizing the variance
+of the data as follows:
+\begin{enumerate}
+  \item Normalize the data to have mean $0$, standard deviation $1$:
+    \begin{equation} x^{(i)}\leftarrow\frac{x^{(i)}-\mu}{\sigma} \end{equation}
+      where $\mu$ and $\sigma^2$ are:
+      \begin{equation} \mu = \frac{1}{m}\sum_{i=1}^mx^{(i)} \end{equation}
+      \begin{equation} \sigma^2=\frac{1}{m}\sum_{i=1}^m(x^{(i)}-\mu)^2 \end{equation}
+  \item Compute covariance matrix $\Sigma$, which is symmetric with real eigenvalues.
+    \begin{equation} \Sigma = \frac{1}{m}\sum_{i=1}^m x^{(i)}x^{(i)^T} \in \mathbb{R}^{n \times n} \end{equation}
+  \item Compute $u_1, \hdots, u_k \in \mathbb{R}^{n}$ the $k$ orthogonal principal
+    eigenvectors of $\Sigma$, i.e. the orthogonal eigenvectors of the $k$
+    largest eigenvalues.
+  \item Project the data on $\textrm{span}_\mathbb{R}(u_1,...,u_k)$ to create
+    a vector $y^{(i)}$ from point $x^{(i)}$:
+    \begin{equation} y^{(i)} = U^T x^{(i)} = \left( \begin{array} { c } { u _ { 1 } ^ { T } x ^ { ( i ) } } \\ { u _ { 2 } ^ { T } x ^ { ( i ) } } \\ { \vdots } \\ { u _ { k } ^ { T } x ^ { ( i ) } } \end{array} \right) \in \mathbb { R } ^ { k } \end{equation}
+\end{enumerate}
+This procedure maximizes the variance among all $k$-dimensional spaces.
 %------------------------------------------------
 \section{Independent Component Analysis}
 %------------------------------------------------

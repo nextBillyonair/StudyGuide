@@ -730,21 +730,21 @@ And the following properties for the PDF:
 \end{equation}
 \subsubsection{Expectation}
 The expected value of a random variable, also known as the mean value or
-first moment, is denoted as $E[X]$ or $\mu$. It is the value obtained by
+first moment, is denoted as $\mathbb { E }[X]$ or $\mu$. It is the value obtained by
 averaging the results of a random variable.
 We use $\mbox{(D)}$ for discrete, $\mbox{(C)}$ for continuous.
 \begin{equation}
-  \mbox{(D)}\quad E[X]=\sum_{i=1}^nx_if(x_i)\quad\quad\mbox{and}\quad\mbox{(C)}\quad E[X]=\int_{-\infty}^{+\infty}xf(x)dx
+  \mbox{(D)}\quad \mathbb { E }[X]=\sum_{i=1}^nx_if(x_i)\quad\quad\mbox{and}\quad\mbox{(C)}\quad \mathbb { E }[X]=\int_{-\infty}^{+\infty}xf(x)dx
 \end{equation}
 The expected value of a function of a random variable $g(X)$ is:
 \begin{equation}
-  \mbox{(D)}\quad E[g(X)]=\sum_{i=1}^ng(x_i)f(x_i)\quad\quad\mbox{and}\quad\mbox{(C)}\quad E[g(X)]=\int_{-\infty}^{+\infty}g(x)f(x)dx
+  \mbox{(D)}\quad \mathbb { E }[g(X)]=\sum_{i=1}^ng(x_i)f(x_i)\quad\quad\mbox{and}\quad\mbox{(C)}\quad \mathbb { E }[g(X)]=\int_{-\infty}^{+\infty}g(x)f(x)dx
 \end{equation}
-The $k$-th moment, noted $E[X^k]$ is the value of $X^k$ that we expect to observe
+The $k$-th moment, noted $\mathbb { E }[X^k]$ is the value of $X^k$ that we expect to observe
 on average on infinitely many trials. The $k$-th moment is a case of the previous
 definition with $g \,:\, X \mapsto X^k$.
 \begin{equation}
-  \mbox{(D)}\quad E[X^k]=\sum_{i=1}^nx_i^kf(x_i) \quad\quad\mbox{and}\quad\mbox{(C)}\quad E[X^k]=\int_{-\infty}^{+\infty}x^kf(x)dx
+  \mbox{(D)}\quad \mathbb { E }[X^k]=\sum_{i=1}^nx_i^kf(x_i) \quad\quad\mbox{and}\quad\mbox{(C)}\quad \mathbb { E }[X^k]=\int_{-\infty}^{+\infty}x^kf(x)dx
 \end{equation}
 A characteristic function $\psi(\omega)$ is derived from a probability density
 function $f(x)$ and is defined as:
@@ -754,14 +754,14 @@ function $f(x)$ and is defined as:
 Remark that $e^{i\omega x} = \cos(\omega x)+ i \sin(\omega x)$. The $k$-th moment
 can also be computed with the characteristic function as:
 \begin{equation}
-  E[X^k]=\frac{1}{i^k}\left[\frac{\partial^k\psi}{\partial\omega^k}\right]_{\omega=0}
+  \mathbb { E }[X^k]=\frac{1}{i^k}\left[\frac{\partial^k\psi}{\partial\omega^k}\right]_{\omega=0}
 \end{equation}
 \subsubsection{Variance and Standard Deviation}
 The variance of a random variable, often noted $\mbox{Var}(X)$ or $\sigma^2$,
 is a measure of the spread of its distribution function.
 It is determined as follows:
 \begin{equation}
-  \mbox{Var}[X]=E[(X-E[X])^2]=E[X^2]-E[X]^2
+  \mbox{Var}[X]=\mathbb { E }[(X-\mathbb { E }[X])^2]=\mathbb { E }[X^2]-\mathbb { E }[X]^2
 \end{equation}
 The standard deviation of a random variable, often noted $\sigma$, is a
 measure of the spread of its distribution function which is
@@ -785,7 +785,7 @@ It can also be expressed as:
 \end{equation}
 Other properties:
 \begin{equation}
-  E[X] = p
+  \mathbb { E }[X] = p
 \end{equation}
 \begin{equation}
   \mbox{Var}[X] = pq = p (1-p)
@@ -801,7 +801,7 @@ experiments, with true probability of $p$, false probability of $q=1-p$.
 \end{equation}
 Other properties:
 \begin{equation}
-  E[X] = np
+  \mathbb { E }[X] = np
 \end{equation}
 \begin{equation}
   \mbox{Var}[X] = npq = np(1-p)
@@ -817,7 +817,7 @@ probability of $p$ until the first true event (number of trials to get one succe
 \end{equation}
 Other properties:
 \begin{equation}
-  E[X] = \frac{1}{p}
+  \mathbb { E }[X] = \frac{1}{p}
 \end{equation}
 \begin{equation}
   \mbox{Var}[X] = \frac{1-p}{p^2}
@@ -834,7 +834,7 @@ used for modeling the frequency of rare events.
 \end{equation}
 Other properties:
 \begin{equation}
-  E[X] = \lambda
+  \mathbb { E }[X] = \lambda
 \end{equation}
 \begin{equation}
   \mbox{Var}[X] = \lambda
@@ -851,7 +851,7 @@ between $a$ and $b$.
 \end{equation}
 Other properties:
 \begin{equation}
-  E[X] = \frac{a+b}{2}
+  \mathbb { E }[X] = \frac{a+b}{2}
 \end{equation}
 \begin{equation}
   \mbox{Var}[X] = \frac{(b-a)^2}{12}
@@ -867,7 +867,7 @@ decaying probability density over the nonnegative reals.
 \end{equation}
 Other properties:
 \begin{equation}
-  E[X] = \frac{1}{\lambda}
+  \mathbb { E }[X] = \frac{1}{\lambda}
 \end{equation}
 \begin{equation}
   \mbox{Var}[X] = \frac{1}{\lambda^2}
@@ -882,7 +882,7 @@ For $X\sim Normal(\mu, \sigma)$, denoted also $X \sim \mathcal{N}(\mu, \sigma)$.
 \end{equation}
 Other properties:
 \begin{equation}
-  E[X] = \mu
+  \mathbb { E }[X] = \mu
 \end{equation}
 \begin{equation}
   \mbox{Var}[X] = \sigma^2

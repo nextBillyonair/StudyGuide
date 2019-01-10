@@ -1286,7 +1286,8 @@ And taking the negative log likelihood to minimize:
 \begin{equation}
   \begin{aligned}
     \ell ( \theta ) \quad & = \quad -\log L ( \theta ) \\
-    & = \quad -\sum _ { i = 1 } ^ { m } y ^ { ( i ) } \log h \left( x ^ { ( i ) } \right) + \left( 1 - y ^ { ( i ) } \right) \log \left( 1 - h \left( x ^ { ( i ) } \right) \right)
+    & = \quad -\sum _ { i = 1 } ^ { m } y ^ { ( i ) } \log h \left( x ^ { ( i ) } \right) + \left( 1 - y ^ { ( i ) } \right) \log \left( 1 - h \left( x ^ { ( i ) } \right) \right) \\
+    & = \quad -\sum_{i=1}^{m} y^{(i)} \theta^T x^{(i)} - \log \left( 1 + e^{\theta^T x^{(i)}} \right)
   \end{aligned}
 \end{equation}
 This is known as the binary cross-entropy loss function.
@@ -1307,6 +1308,15 @@ This therefore gives us the stochastic gradient ascent rule:
 \end{equation}
 We must use gradient descent for logistic regression since there is no closed
 form solution for this problem.
+\subsection{Newton-Raphson Algorithm}
+The Hessian matrix for logistic regression is:
+\begin{equation}
+  \frac{\partial^2 \ell(\theta)}{\partial \theta \partial \theta} = -\sum_{i=1}^m x^{(i)} x^{(i) T} \cdot h\left(x^{(i)}\right) \cdot \left(1-h\left(x^{(i)}\right)\right)
+\end{equation}
+Hence the second order update is:
+\begin{equation}
+  \theta := \theta - \left( \frac{\partial^2 \ell(\theta)}{\partial \theta \partial \theta} \right)^{-1} \frac{\partial \ell(\theta)}{\partial \theta}
+\end{equation}
 %------------------------------------------------
 \section{Softmax Regression}
 A softmax regression, also called a multiclass logistic regression, is

@@ -1632,16 +1632,146 @@ This procedure maximizes the variance among all $k$-dimensional spaces.
 \subsection{Optimization Algorithms}
 \subsection{Convolutional Networks}
 \subsection{Recurrent Networks}
+Recurrent networks allow us to work with sequences, where $x_t$ is the input
+at time $t$, $h_t$ is the hidden state at time $t$, and $h_{t-1}$ is the
+previous hidden state. RNNs allow us to propagate information through the
+hidden state $h$. Hidden states defualt to zero.
 \subsubsection{Elman RNN}
+The Elman RNN is the simplest layers, yet prone to both the vanishing and
+exploding gradient problem.
+\begin{equation}
+  h_t = \tanh \left( W_{ih} x_t + b_{ih} + W_{hh} h_{t-1} + b_{hh} \right)
+\end{equation}
+Here, $W$ are weight matricies, and $b$ are bias vectors, one each for the
+input and hidden vectors.
 \subsubsection{Long Short-Term Memory}
+LSTM RNNs mitigate the vanishing gradient problem. They involve a more complex
+set of equations corresponding to gates that control the amount of infomation
+to propagate through the sequence. Here, $i$ is the input gate, $f$ is the
+forget gate, $g$ is the cell gate, and $o$ is the output gate. LSTMs have
+two hidden inputs, hidden state $h_t$ and cell state $c_t$.
+\begin{equation}
+  \begin{split}
+    i_t \quad =& \quad \sigma \left( W_{ii} x_t + b_{ii} + W_{hi} h_{t-1} + b_{hi} \right) \\
+    f_t \quad =& \quad \sigma \left( W_{if} x_t + b_{if} + W_{hf} h_{t-1} + b_{hf} \right) \\
+    g_t \quad =& \quad \tanh \left( W_{ig} x_t + b_{ig} + W_{hg} h_{t-1} + b_{hg} \right) \\
+    o_t \quad =& \quad \sigma \left( W_{io} x_t + b_{io} + W_{ho} h_{t-1} + b_{ho} \right) \\
+    c_t \quad =& \quad f_t \circ c_{t-1} + i_t \circ g_t \\
+    h_t \quad =& \quad o_t \circ \tanh \left( c_t \right) \\
+  \end{split}
+\end{equation}
+Here, $\sigma$ is the sigmoid function.
 \subsubsection{Gated Recurrent Unit}
+GRU RNNs are another rnn layer designed to mitigate the vanishing gradient
+problem. Here, we have the $r$ reset gate, $z$ update gate, and $n$ is the
+new gate. $\sigma$ is the sigmoid function.
+\begin{equation}
+  \begin{split}
+    r_t \quad =& \quad \sigma \left( W_{ir} x_t + b_{ir} + W_{hr} h_{t-1} + b_{hr} \right) \\
+    z_t \quad =& \quad \sigma \left( W_{iz} x_t + b_{iz} + W_{hz} h_{t-1} + b_{hz} \right) \\
+    n_t \quad =& \quad \tanh \left( W_{in} x_t + b_{in} + r_t \circ \left( W_{hn} h_{t-1} + b_{hn} \right) \right) \\
+    h_t \quad =& \quad \left(1-z_t\right) \circ n_t + z_t \circ h_{t-1} \\
+  \end{split}
+\end{equation}
 \subsubsection{Bidirectional RNNs}
+Bidirectional RNNs run two separate RNN layers on the forward and reverse
+sequence, and then concatenates them into one output vector.
+\begin{equation}
+  \begin{split}
+    \overrightarrow{h_f} \quad =& \quad \operatorname{RNN}\left(\overrightarrow{x}\right) \\
+    \\
+    \overleftarrow{h_r} \quad =& \quad \operatorname{RNN}\left(\overleftarrow{x}\right) \\
+    \\
+    h_o \quad =& \quad \left[\overrightarrow{h_f} \,;\, \overrightarrow{h_r} \right] \\
+  \end{split}
+\end{equation}
+Where $\operatorname{RNN}$ can be any of the 3 previously mentioned layers.
+\subsubsection{Vanishing/Exploding Gradient}
+The vanishing and exploding gradient phenomena are often encountered in the
+context of RNNs. The reason why they happen is that it is difficult to
+capture long term dependencies because of multiplicative gradient that can
+be exponentially decreasing/increasing with respect to the number of layers.
+\subsubsection{Gradient Clipping}
+Gradient clipping is a technique used to cope with the exploding gradient
+problem sometimes encountered when performing backpropagation.
+By capping the maximum value for the gradient, this phenomenon is
+controlled in practice.
+\begin{equation}
+  \nabla \mathcal{L}_{clipped} = \min \left( \nabla \mathcal{L}, \, C  \right)
+\end{equation}
+For some max value $C$.
 \section{Deep Learning: Advanced}
 \subsection{Autoencoders}
 \subsubsection{Variational Autoencoders}
 \subsection{General Adversarial Networks}
 \subsection{Encoder-Decoder Models}
-\subsubsection{Attention Models}
+Encoder-decoder models allow for many to many RNN sequence learning. The idea
+for them is two take a source sequence, encode it to a vectorized output, and
+pass the hidden state over to the decoder (and possible the encodings themselves)
+to generate output. These models come up in machine tranlsations, allowing
+models to translate a source language into a target language.
+\subsubsection{Encoders}
+% The encoder, or \emph{inference network}, recieves an input sequence
+% $\arrow{x} = \left[x_1, \cdots, x_n \right]$ and encodes the sequence through
+% recurrent layers.
+\subsubsection{Decoders}
+\subsection{Attention Models}
+Attention models were discussed by Bahdanau, and later Luong. They are a means
+to alter the representation of a set of encodings to pay attention to certain
+sequence elements more so than others. In an encoder-decoder model with out
+attention, the decoder relies exclusivly on the hidden state to hold all
+information. Attention, by contrast, uses the hidden state to create a context
+vector of the encodings.
+\subsubsection{Context Vector}
+Attention mechanisms rely on one simple concept: producing context vectors.
+Hence, given a set of encodeings $h = \left[h_i, \cdots, h_j, \cdots h_n \right]$
+from the encoder, and the current hidden state $s_{i-1}$, we compute a score
+for each encoding $h_j$, denoted $score(s_{i-1}, h_j)$. These scores are discussed
+in later sections. With a score computed for each encoding, we apply a softmax
+across all scores:
+\begin{equation}
+  a(s_{i-1}, h_j) = \frac{\exp(score(s_{i-1}, h_j))}{\sum_{j'} \exp(score(s_{i-1}, h_{j'}))}
+\end{equation}
+These softmax proabilities are attention weights, and our context vector $c_i$
+is the weighted sum of the encodings given these weights:
+\begin{equation}
+  c_i = \sum_{j'} a(s_{i-1}, h_{j'}) \cdot h_{j'}
+\end{equation}
+These context vectors are appended to the embedding of the token set into the decoder.
+\subsubsection{Concat (Bahdanau) Attention}
+The concat attention scoring mechanism has two learnable weights, $v_a$ and $W_a$
+and is defined as:
+\begin{equation}
+  score(s_{i-1}, h_j) = v_a^T \cdot \tanh \left( W_a \cdot \left[ s_{i-1} ; h_j \right] \right)
+\end{equation}
+\subsubsection{Luong Attention Mechanisms}
+Luong defined several global attention mechanisms, defined here:
+\begin{equation}
+  score(s_{i-1}, h_j) =
+    \begin{cases}
+      s_{i-1}^T \cdot W_a \cdot h_j & general \\
+      s_{i-1}^T \cdot h_j & dot
+    \end{cases}
+\end{equation}
+Luong also explored local attention weights, with monotonic alignment and
+predictive alignment. The difference in local attention is that the
+context vector is derived on source hidden states within the window
+$\left[p_t - D , \, p_t + D\right]$ for some $D$ and decoder time step $t$ (i.e. $i-1$).
+In monotonic alignment, aligned position $p_t=t$.
+In predicitve alignment, the aligned position is:
+\begin{equation}
+  p_t = S \cdot \sigma \left( v_p^T \tanh \left( W_p s_{i-1} \right) \right)
+\end{equation}
+where $v_p$ and $W_p$ are learnable parameters,
+$S$ is the source sentence length. In addition, the weights are gaussian centered
+around $p_t$:
+\begin{equation}
+  a(s_{i-1}, h_j) = \frac{\exp(score(s_{i-1}, h_j))}{\sum_{j'} \exp(score(s_{i-1}, h_{j'}))} \cdot \exp\left(-\frac{(s-p_t)^2}{2\left(\frac{D}{2}\right)^2}\right)
+\end{equation}
+Here, $s$ is an integer within the window centered at $p_t$.
+
+
+
 
 %------------------------------------------------
 %------------------------------------------------

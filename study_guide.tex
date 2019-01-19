@@ -1612,6 +1612,23 @@ of the data as follows:
     \begin{equation} y^{(i)} = U^T x^{(i)} = \left( \begin{array} { c } { u _ { 1 } ^ { T } x ^ { ( i ) } } \\ { u _ { 2 } ^ { T } x ^ { ( i ) } } \\ { \vdots } \\ { u _ { k } ^ { T } x ^ { ( i ) } } \end{array} \right) \in \mathbb { R } ^ { k } \end{equation}
 \end{enumerate}
 This procedure maximizes the variance among all $k$-dimensional spaces.
+\subsection{Algorithm: SVD}
+Eigenvalue decomposition is deifned for square matricies, and using the SVD of a
+data matrix $X$ is often used in practice.
+\begin{enumerate}
+  \item Zero-mean the data to have mean $0$:
+    \begin{equation} x^{(i)}\leftarrow x^{(i)}-\mu \end{equation}
+      where $\mu$ is:
+      \begin{equation} \mu = \frac{1}{m}\sum_{i=1}^mx^{(i)} \end{equation}
+  \item Computed the singular value decomposition of $X_{\mu}$, our zero-meaned
+    data matrix:
+    \begin{equation}
+      X_{\mu} = USV
+    \end{equation}
+  \item Take the first $k$ columns of $U$ as our transform matrix, denoted $U_k$.
+  \item Project the data to create a matrix $Y$ from data matrix $X_{\mu}$:
+    \begin{equation} Y = X U_k\end{equation}
+\end{enumerate}
 %------------------------------------------------
 \section{Independent Component Analysis}
 %------------------------------------------------
@@ -1772,7 +1789,31 @@ Here, $s$ is an integer within the window centered at $p_t$.
 
 
 \subsection{Word Embeddings}
-\subsubsection{Continuous Bag-of-Words model (CBOW)}
+Word Embeddings seek to create a dense vector representation of real values
+to represent a single word in a euclidean space. Word vectors are weight matrices
+where each row corresponds to a word, acessed through a numerical token representing
+the word itself. However, several models have been developed to train these
+word embedding weights to encode lexical meaning.
+\subsubsection{N-Gram Models}
+A simple apporach is to take a context of size $n$ words that appear before our
+target word, and attempt to train a model to predict a word $w_i$ that appears
+in a training corpus. We effectively average the input word embeddings, apply
+a linear layer to project the data to the vocab size, and maximize the probability
+of predicitng the target word (i.e. apply a softmax of the output vector).
+\begin{equation}
+  \max \, p(w_{i} \,|\, w_{i-n}, \dots, w_{i-1}) = \max \frac{\exp f(w_{i-n}, \dots, w_{i-1})_i}{\sum_{j=1}^{|V|}\exp f(w_{i-n}, \dots, w_{i-1})_j }
+\end{equation}
+Where our model is:
+\begin{equation}
+  f(w_{i-n}, \dots, w_{i-1}) = W_d \cdot \left( \frac{1}{n}\sum_{j=1}^n W_e[w_{i-j}] \right) + b_d \in \mathbb{R}^{|V|}
+\end{equation}
+Here, $|V|$ is the size of the vocabulary, $W_d\in\mathbb{R}^{d\times|V|}$ is
+a projection matrix used for training along with bias $b_d$,
+and $W_e\in\mathbb{R}^{|V|\times d}$ are the word embeddings we seek to train.
+$d$ is the embedding dimension.
+\subsubsection{Continuous Bag-of-Words Models (CBOW)}
+The continuous bag of words model, or CBOW, seeks to predict a center word
+given the surrounding context words. 
 \subsubsection{Skip-Gram Model}
 \subsubsection{Negative Sampling}
 

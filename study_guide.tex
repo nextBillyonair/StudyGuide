@@ -1810,10 +1810,35 @@ Where our model is:
 Here, $|V|$ is the size of the vocabulary, $W_d\in\mathbb{R}^{d\times|V|}$ is
 a projection matrix used for training along with bias $b_d$,
 and $W_e\in\mathbb{R}^{|V|\times d}$ are the word embeddings we seek to train.
-$d$ is the embedding dimension.
+$d$ is the embedding dimension. \\
+Now we can write the negative log likelihood as:
+\begin{equation}
+    \min -\log p(w_{i} \,|\, w_{i-n}, \dots, w_{i-1}) = - f(w_{i-n}, \dots, w_{i-1})_i + \log \sum_{j=1}^{|V|} \exp f(w_{i-n}, \dots, w_{i-1})_j
+\end{equation}
 \subsubsection{Continuous Bag-of-Words Models (CBOW)}
 The continuous bag of words model, or CBOW, seeks to predict a center word
-given the surrounding context words. 
+given the surrounding context words. For instance, given a context size of $n$,
+for a target center word $w_i$, we are given context words
+$w_{i-n}, \dots w_{i-1}, w_{i+1}, \dots w_{i+n}$ and attempt to predict $w_i$.
+Hence:
+\begin{equation}
+  \max \, p(w_{i} \,|\, w_{i-n}, \dots, w_{i-1}, w_{i+1}, \dots, w_{i+n}) = \max \frac{\exp f(w_{i-n}, \dots, w_{i-1}, w_{i+1}, \dots, w_{i+n})_i}{\sum_{j=1}^{|V|}\exp f(w_{i-n}, \dots, w_{i-1}, w_{i+1}, \dots, w_{i+n})_j }
+\end{equation}
+Where our model is:
+\begin{equation}
+  f(w_{i-n}, \dots, w_{i-1}, w_{i+1}, \dots, w_{i+n}) = W_d \cdot \left( \frac{1}{2*n}\sum_{j=-n,j\not=0}^n W_e[w_{i+j}] \right) + b_d \in \mathbb{R}^{|V|}
+\end{equation}
+Here, $|V|$ is the size of the vocabulary, $W_d\in\mathbb{R}^{d\times|V|}$ is
+a projection matrix used for training along with bias $b_d$,
+and $W_e\in\mathbb{R}^{|V|\times d}$ are the word embeddings we seek to train.
+$d$ is the embedding dimension. \\
+Now we can write the negative log likelihood as:
+\begin{equation}
+  \begin{split}
+    \min -\log p(w_{i} \,|\, w_{i-n}, \dots, w_{i-1}, w_{i+1}, \dots, w_{i+n}) =& - f(w_{i-n}, \dots, w_{i-1}, w_{i+1}, \dots, w_{i+n})_i \\
+    &+ \log \sum_{j=1}^{|V|} \exp f(w_{i-n}, \dots, w_{i-1}, w_{i+1}, \dots, w_{i+n})_j
+  \end{split}
+\end{equation}
 \subsubsection{Skip-Gram Model}
 \subsubsection{Negative Sampling}
 

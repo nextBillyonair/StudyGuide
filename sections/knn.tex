@@ -1,0 +1,18 @@
+\section{K-Nearest Neighbors}
+The $k$-nearest neighbors algorithm, commonly known as
+$k$-NN, is a non-parametric approach where the response of a data point
+is determined by the nature of its $k$ neighbors from the training set.
+It can be used in both classification and regression settings.
+The higher the parameter $k$, the higher the bias, and the lower the parameter
+$k$, the higher the variance.
+\subsection{Classification}
+In $k$-NN classification, the output is a class membership. An object is
+classified by a majority vote of its neighbors, with the object being assigned
+to the class most common among its $k$ nearest neighbors ($k$ is a positive integer,
+typically small). If $k = 1$, then the object is simply assigned to the class
+of that single nearest neighbor.
+\subsection{Regression}
+In $k$-NN regression, the output is the property value for the object.
+This value is the average of the values of its k nearest neighbors.
+\begin{equation} y = \frac{1}{k} \sum_{x_i \in \mathcal{N}_k(x)} y_i \end{equation}
+where $\mathcal{N}_k(x)$ is the $k$ nearest points around $x$.

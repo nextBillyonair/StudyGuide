@@ -1,0 +1,50 @@
+\section{Probabilistic Graphical Models}
+Probabilistic Graphical Models are models for which a graph can express the
+conditional dependence structure between random variables. We will define
+the basics used to understand PGMs here. \\
+For starters, a model is a set of probability distributions that may
+have generated data. For example, a model could be the set of normal distributions
+\begin{equation}
+  \left\{ p(x) : p(x) = \frac{1}{\sqrt{2\pi \sigma^2}} \exp \left( -\frac{(x-\mu)^2}{2\sigma^2} \right), \mu \in \mathbb{R}, \sigma^2 \in \mathbb{R}^+\right\}
+\end{equation}
+A graphical model is defined to be a pair $(\mathcal{G}, \mathcal{P})$ where
+$\mathcal{G}$ is a graph and $\mathcal{P}$ is a set of distributions which
+factorizes according to $\mathcal{G}$. A graph $\mathcal{G} = (\mathbf{V}, \mathbf{E})$
+consists of a set of vertices $\mathbf{V}$ and a set of edges $\mathbf{E}$.
+Typically the vertices are random variables and the edges relate the random variables.
+\subsection{Bayesian Networks}
+Bayesian Networks are a type of PGM constructed from directed acyclic graphs.
+A directed acyclic graph (DAG) is a graph $\mathcal{G} = (\mathbf{V}, \mathbf{E})$
+such that $\mathbf{E}$ contains only directed edges ($\rightarrow)$ and there
+does not exist a sequence of directed edges from $X_i$ to $X_i$ for all nodes
+in the graph.\\
+Due to the structure of the DAG, we can factorize the joint distribution
+$p(\mathbf{x})$ with respect to the graph as:
+\begin{equation}
+  p(\mathbf{x}) = \prod_{i=1}^n p(x_i \, | \, pa(x_i, \mathcal{G}))
+\end{equation}
+Here, $pa(x_i, \mathcal{G})$ are the parents of $x_i$ with respect to graph $\mathcal{G}$.\\
+Using this factorization, we can specify conditional independencies from the graph's structure.
+We define three useful set construction operations for these networks:
+\begin{equation}
+  \begin{matrix}
+    an(x_i, \mathcal{G}) \equiv \left\{ x_j \, | \, x_j \rightarrow \cdots \rightarrow x_i \in \mathcal{G} \right\} & (\textrm{ancestors of } x_i)\\
+    de(x_i, \mathcal{G}) \equiv \left\{ x_j \, | \, x_j \leftarrow \cdots \leftarrow x_i \in \mathcal{G} \right\} & (\textrm{descendants of } x_i)\\
+    nd(x_i, \mathcal{G}) \equiv \left\{ x_j \, | \, x_j \notin de(x_i, \mathcal{G}) \right\} & (\textrm{non-descendants of } x_i)\\
+  \end{matrix}
+\end{equation}
+A distribution $p(\mathbf{x})$ satisfies the local Markov property wrt DAG
+$\mathcal{G}$ if:
+\begin{equation}
+  x_i \CI nd^*(x_i, \mathcal{G}) \, | \, pa(x_i, \mathcal{G})
+\end{equation}
+where $nd^*(x_i, \mathcal{G}) \equiv nd(x_i, \mathcal{G}) \setminus pa(x_i, \mathcal{G})$\\
+For the global markov property, let $\mathbf{A}, \mathbf{B}, \mathbf{C}$ be disjoint subsets
+of $\mathbf{X}$.  A distribution $p(\mathbf{X})$ satisfies the global markov property
+wrt DAG $\mathcal{G}$ if:
+\begin{equation}
+  A \perp_d B \, | \, C \implies A \CI B \, | \, C
+\end{equation}
+\subsubsection{Hidden Markov Models}
+\subsection{Markov Random Fields}
+\subsection{Conditional Random Fields}

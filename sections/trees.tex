@@ -1,0 +1,21 @@
+\section{Tree-based Methods}
+\subsection{Decision Trees}
+Decision Trees are created via the Classification and Regression Trees (CART)
+training algorithm. They can be represent as binary trees where at each node the
+partition the data space according to a threshold to minimize either gini impurity
+or entropy between the two child nodes.
+\subsection{Random Forest}
+Random forests are a tree-based technique that uses a high number of decision
+trees built out of randomly selected sets of features. Contrary to the simple
+decision tree, it is highly uninterpretable but its generally good performance
+makes it a popular algorithm. It averages the decisions across several trees
+to combat overfitting. Random forests are a type of ensemble methods.
+\subsection{Boosting}
+The idea of boosting methods is to combine several weak learners to form a
+stronger one. The main ones are summed up below:
+\begin{enumerate}
+  \item Adaptive boosting: Known as adaboost, it places high weights on errors
+    to improve at the next boosting step.
+  \item Gradient boosting: Weak learners are trained on the remaining errors.
+\end{enumerate}
+Boosting requires training several models to improve upon previous ones.

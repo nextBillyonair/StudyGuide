@@ -11,7 +11,18 @@ A graphical model is defined to be a pair $(\mathcal{G}, \mathcal{P})$ where
 $\mathcal{G}$ is a graph and $\mathcal{P}$ is a set of distributions which
 factorizes according to $\mathcal{G}$. A graph $\mathcal{G} = (\mathbf{V}, \mathbf{E})$
 consists of a set of vertices $\mathbf{V}$ and a set of edges $\mathbf{E}$.
-Typically the vertices are random variables and the edges relate the random variables.
+Typically the vertices are random variables and the edges relate the random variables.\\
+We say that random variable $X_i$ is conditionally independent of $X_j$ given a set of
+variables $\mathbf{Z}$, and write this as: $X_i \indep X_j | \mathbf{Z}$.\\
+\subsection{Graphoid Axioms}
+Some properties of conditonal independence are as follows:
+\begin{enumerate}
+  \item $X_1 \indep X_2 | \mathbf{Z} \implies X_2 \indep X_1|\mathbf{Z}$ (symmetry)
+  \item $X_1 \indep \left( X_2, X_3 \right) | \mathbf{Z} \implies X_1 \indep X_2|\mathbf{Z}$ (decomposition)
+  \item $X_1 \indep \left( X_2, X_3 \right) | \mathbf{Z} \implies X_1 \indep X_2|\left(\mathbf{Z}, X_3\right)$ (weak union)
+  \item $X_1 \indep X_2|\left(\mathbf{Z}, X_3\right) \,\, \& \,\, X_1 \indep X_3 | \mathbf{Z} \implies X_1 \indep \left(X_2, X_3 \right) | \mathbf{Z}$ (contraction)
+  \item $X_1 \indep X_2 | \left(\mathbf{Z}, X_3\right) \,\, \& \,\, X_1 \indep X_3 | \left(\mathbf{Z}, X_2\right) \implies X_1 \indep \left(X_2, X_3\right)|\mathbf{Z}$ (intersection, for positive distributions)
+\end{enumerate}
 \subsection{Bayesian Networks}
 Bayesian Networks are a type of PGM constructed from directed acyclic graphs.
 A directed acyclic graph (DAG) is a graph $\mathcal{G} = (\mathbf{V}, \mathbf{E})$
@@ -36,15 +47,10 @@ We define three useful set construction operations for these networks:
 A distribution $p(\mathbf{x})$ satisfies the local Markov property wrt DAG
 $\mathcal{G}$ if:
 \begin{equation}
-  x_i \CI nd^*(x_i, \mathcal{G}) \, | \, pa(x_i, \mathcal{G})
+  x_i \indep nd^*(x_i, \mathcal{G}) \, | \, pa(x_i, \mathcal{G})
 \end{equation}
 where $nd^*(x_i, \mathcal{G}) \equiv nd(x_i, \mathcal{G}) \setminus pa(x_i, \mathcal{G})$\\
-For the global markov property, let $\mathbf{A}, \mathbf{B}, \mathbf{C}$ be disjoint subsets
-of $\mathbf{X}$.  A distribution $p(\mathbf{X})$ satisfies the global markov property
-wrt DAG $\mathcal{G}$ if:
-\begin{equation}
-  A \perp_d B \, | \, C \implies A \CI B \, | \, C
-\end{equation}
-\subsubsection{Hidden Markov Models}
+
 \subsection{Markov Random Fields}
-\subsection{Conditional Random Fields}
+\subsection{Exact Inference}
+\subsection{Variational Inference}

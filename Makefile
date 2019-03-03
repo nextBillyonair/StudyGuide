@@ -4,7 +4,8 @@ BIBTEX:=bibtex
 
 TEX_SRC=study_guide.tex
 
-${TEX_SRC:.tex=.pdf}:%.pdf: %.tex %.bib
+
+${TEX_SRC:.tex=.pdf}:%.pdf: %.tex %.bib sections/*.tex
 	$(PDFLATEX) $<
 	# $(BIBTEX) ${<:.tex=}
 	$(PDFLATEX) $<

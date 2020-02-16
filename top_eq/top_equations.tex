@@ -1,0 +1,192 @@
+%------------------------------------------------------------------------------
+%   PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%------------------------------------------------------------------------------
+
+\documentclass[twoside,twocolumn]{article}
+
+%\usepackage[sc]{mathpazo} % Use the Palatino font
+%\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+%\linespread{1.05} % Line spacing - Palatino needs more space between lines
+%\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+\usepackage[english]{babel} % Language hyphenation and typographical rules
+
+% Document margins
+\usepackage[hmarginratio=1:1,top=32mm,left=20mm,right=20mm,columnsep=20pt]{geometry}
+% Custom captions under/above floats in tables or figures
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption}
+\usepackage{booktabs} % Horizontal rules in tables
+
+\usepackage{enumitem} % Customized lists
+\setlist[itemize]{noitemsep} % Make itemize lists more compact
+\usepackage{textcomp}
+
+% Allows abstract customization
+\usepackage{abstract}
+% Set the "Abstract" text to bold
+\renewcommand{\abstractnamefont}{\normalfont\bfseries}
+% Set the abstract itself to small italic text
+\renewcommand{\abstracttextfont}{\normalfont\small\itshape}
+
+\usepackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyhead[C]{\thetitle}
+\fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+\usepackage{titling} % Customizing the title section
+
+\usepackage{hyperref} % For hyperlinks in the PDF
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{tikz}
+\usetikzlibrary{bayesnet, arrows, positioning, fit, arrows.meta, shapes}
+
+\usepackage{color}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{graphicx}
+
+
+\captionsetup[figure]{labelfont={bf},textfont=normalfont}
+
+%------------------------------------------------------------------------------
+%   TITLE SECTION
+%------------------------------------------------------------------------------
+\newlength\mystoreparindent
+\newenvironment{myparindent}[1]{%
+  \setlength{\mystoreparindent}{\the\parindent}
+  \setlength{\parindent}{#1}
+  }{%
+  \setlength{\parindent}{\mystoreparindent}
+}
+
+
+%% independence symbol and expectation operator %%
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+\DeclareMathOperator*{\E}{\mathbb{E}}
+\DeclareMathOperator*{\Et}{\mathbb{E}_t}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\circlearrow}{\hbox{$\circ$}\kern-1.5pt\hbox{$\rightarrow$}}
+\DeclareMathOperator{\circlecircle}{\hbox{$\circ$}\kern-1.2pt\hbox{$--$}\kern-1.5pt\hbox{$\circ$}}
+
+\newcommand\indep{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+\setlength{\droptitle}{-4\baselineskip} % Move the title up
+
+\pretitle{\begin{center}\Huge\bfseries} % Article title formatting
+\posttitle{\end{center}} % Article title closing formatting
+
+\title{Top Equations in Deep Learning}
+% \author{%
+%   \textsc{William Watson} \\[1ex]
+%   \normalsize Johns Hopkins University \\
+%   \normalsize \href{mailto:billwatson@jhu.edu}{billwatson@jhu.edu}
+% }
+
+\date{\today} % Leave empty to omit a date
+
+% \renewcommand{\maketitlehookd}{%
+
+% }
+
+\newcommand{\specialcell}[2][c]{%
+  \begin{tabular}[#1]{@{}l@{}}#2\end{tabular}}
+
+%------------------------------------------------------------------------------
+
+\begin{document}
+
+% Print the title
+\maketitle
+
+%------------------------------------------------------------------------------
+%   ARTICLE CONTENTS
+%------------------------------------------------------------------------------
+% \tableofcontents
+%------------------------------------------------
+\onecolumn
+%------------------------------------------------
+
+\begin{table}
+  \centering
+  \resizebox{\columnwidth}{!}{
+  \begin{tabular}{p{0.2cm} p{6cm} p{12cm} p{6cm} p{4cm}}
+    \toprule
+    {} & Equation & {} & Use & Citation \\ \\
+    \midrule
+    1  &  Stochastic Gradient Descent
+      & $\displaystyle \theta_{i+1} \leftarrow \theta_{i} - \alpha \sum_{x \in B} \frac{\partial L(x)}{\partial \theta}$      & Optimization      &
+    \\ \\ \\
+    2  &  Backpropagation
+      & $\displaystyle \frac{\partial L}{\partial \theta} = \frac{\partial L}{\partial z}\frac{\partial z}{\partial \theta} $      & Computing Gradients      &
+    \\ \\ \\
+    3  &  Linear Layer
+      & $\displaystyle y = Wx + b$      & Base Layer in Deep Learning      &
+    \\ \\ \\
+    4  &  Convolutions
+      &   $\displaystyle (f \ast g)[n] = \sum_{m=0}^{K} f[n - m] g[m] $    & Image Networks      &
+    \\ \\ \\
+    5  &  ReLU
+      & $\displaystyle \operatorname{ReLU}\left( x \right) = \max(0, x)$      & Activation Function      &
+    \\ \\ \\
+    6  &  Recurrent Cells
+      & $\displaystyle h_{t+1} = \tanh \left( W_{ih} x_t + b_{ih} + W_{hh}h_t + b_{hh} \right)$      & Sequence Modeling      &
+    \\ \\ \\
+    7  &  Self Attention
+      & $\displaystyle \operatorname{Attention} \left( Q, K, V \right) = \operatorname{softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right) V$      & Transformers      &
+    \\ \\ \\
+    8  &  Generative Adversarial Netowrks
+      & $\displaystyle \min_G \max_D \mathop{\mathbb{E}}_{x \sim p_{data}(x)}\left[\log D(x)\right] + \mathop{\mathbb{E}}_{z \sim p_{z}(z)}\left[\log \left(1 - D(G(z))\right) \right]  $      & Generative Modeling      &
+    \\ \\ \\
+    9  &  REINFORCE
+      & $\displaystyle \triangle \theta = \alpha r \frac{\partial \log p \left( a \mid \pi^{\theta}(s) \right)}{\partial \theta}$      & Reinforcement Learning       &
+    \\ \\ \\
+    10 &  (Variational) Auto-Encoder
+      &       & Liklihood Modeling       &
+    \\ \\ \\
+    11 &  Categorical Cross Entropy
+      & $\displaystyle L\left(x, y\right) = -x_y + \log \left(\sum_j \exp \left(x_j\right)\right)$      & Multiclass Classification      &
+    \\ \\ \\
+    12 &  Bellman Equation
+      &
+      \specialcell{$\displaystyle V(s_t) = \max_{a_t} \left( R(s_t, a_t) + \gamma \sum_{s_{t+1}} p(s_t, a_t, s_{t+1}) V(s_{t+1}) \right)$\\$\displaystyle Q(s_t, a_t) = Q(s_t, a_t) + \alpha \cdot \left( R(s_t, a_t) + \gamma \cdot \max_{a} Q \left(s_{t+1}, a \right) - Q \left( s_t, a_t \right) \right)$}
+      &  Reinforcement Learning     &
+    \\ \\ \\
+    13 &  Reparametrization Trick &
+    $\displaystyle \mathop{\mathbb{E}}_{z \sim p(z|\theta)} \left[ f(z) \right] = \mathop{\mathbb{E}}_{\epsilon \sim p(\epsilon)} \left[ f(g(\epsilon, \theta)) \right]$ & Differential Sampling
+    % $\displaystyle \tilde{x} \sim \mu + \sigma \mathcal{N}(0, 1)$  &
+           &
+    \\ \\ \\
+    14 &  $\ell_p$ Norm
+      & $\displaystyle \| x  \|_p = \left( \sum_{i=1}^n |x_i|^p \right)^{1/p} \qquad \| A \|_F \sqrt{\sum_{i=1}^m \sum_{j=1}^n |a_{ij}|^2 }$
+            & Distance, Regression Loss      &
+    \\ \\ \\
+    15 &  Batch Normalization
+      & $\displaystyle y = \frac{x - \mathop{\mathbb{E}} \left[ x \right]}{\sqrt{\operatorname{Var}\left[ x \right] + \epsilon}} \ast \gamma + \beta$      & Regularization      &
+    \\ \\ \\
+    16 &  Mutual Information
+      &       &       &
+    \\
+    \bottomrule
+  \end{tabular}
+  }
+  \caption{}
+  \label{}
+
+\end{table}
+
+
+% References
+% \bibliographystyle{abbrv}
+% \bibliography{study_guide}
+
+%------------------------------------------------
+
+\end{document}

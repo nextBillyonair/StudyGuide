@@ -1,0 +1,137 @@
+\section{Linear Regression}
+Linear Regression seeks to approximate a real valued label $y$ as a
+linear function of $x$:
+\begin{equation}
+  h_{\theta}(x) = \theta_0 + \theta_1 \cdot x_1 + \cdots + \theta_n \cdot x_n
+\end{equation}
+The $\theta_i$'s are the parameters, or weights. If we include the
+intercept term via $x_0=1$, we can write our model more compactly as:
+\begin{equation}
+  h(x) = \sum_{i=0}^{n} \theta_i \cdot x_i = \theta^T x
+\end{equation}
+Here $n$ is the number of input variables, or features. In Linear Regression,
+we seek to make $h(x)$ as close to $y$ for a set of training examples. We
+define the cost function as:
+\begin{equation}
+  J(\theta) = \frac{1}{2} \sum_{i=1}^{m} \left( h \left(x^{(i)}\right) - y^{(i)}\right)^2
+\end{equation}
+\subsection{LMS Algorithm}
+We seek to find a set of $\theta$ such that we minimize $J(\theta)$ via a
+search algorithm that starts at some initial guess for our parameters and takes
+incremental steps to make $J(\theta)$ smaller until convergence. This is know
+as gradient descent:
+\begin{equation}
+  \theta_j := \theta_j - \alpha \frac{\partial}{\partial \theta_j}J(\theta)
+\end{equation}
+Here, $\alpha$ is the learning rate. We can derive the partial derivative as:
+\begin{equation}
+  \begin{split}
+    \frac{\partial}{\partial \theta_{j}}J(\theta) \quad =& \quad \frac{\partial}{\partial \theta_{j}}\frac{1}{2} \left( h(x)-y \right)^{2} \\
+    =& \quad 2\cdot \frac{1}{2} \left(h(x) - y \right) \cdot \frac{\partial}{\partial \theta_{j}} (h(x) - y) \\
+    =& \quad \left(h(x) - y \right) \cdot \frac{\partial}{\partial \theta_{j}} \left(\sum_{i=0}^{n} \theta_{i} x_{i} - y \right) \\
+    =& \quad \left( h ( x ) - y \right) x _ { j } \\
+\end{split}
+\end{equation}
+Hence, for a single example (stochastic gradient descent):
+\begin{equation}
+  \theta _ { j } : = \theta _ { j } + \alpha \left( y ^ { ( i ) } - h \left( x ^ { ( i ) } \right) \right) x _ { j } ^ { ( i ) }
+\end{equation}
+This is called the LMS update rule. For a batched version, we can evaluate the
+gradient on a set of examples (batch gradient descent), or the full set
+(gradient descent).
+\begin{equation}
+  \theta _ { j } : = \theta _ { j } + \alpha \sum _ { i = 1 } ^ { m } \left( y ^ { ( i ) } - h \left( x ^ { ( i ) } \right) \right) x _ { j } ^ { ( i ) }
+\end{equation}
+\subsection{The Normal Equations}
+We can also directly minimize $J$ without using an iterative algorithm. We
+define $X$ as the matrix of all samples of size $m$ by $n$.
+We let $\vec{y}$ be a $m$ dimensional vector of all target values. We can
+define our cost function $J$ as:
+\begin{equation}
+  J(\theta) = \frac { 1 } { 2 } ( X \theta - \vec { y } ) ^ { T } ( X \theta - \vec { y } ) = \frac { 1 } { 2 } \sum _ { i = 1 } ^ { m } \left( h \left( x ^ { ( i ) } \right) - y ^ { ( i ) } \right) ^ { 2 }
+\end{equation}
+We then take the derivative and find its roots.
+
+\begin{equation}
+  \begin{split}
+    \nabla _ { \theta } J ( \theta ) \quad =& \quad \nabla _ { \theta } \frac { 1 } { 2 } ( X \theta - \vec { y } ) ^ { T } ( X \theta - \vec { y } ) \\
+    =& \quad \frac { 1 } { 2 } \nabla _ { \theta } \left( \theta ^ { T } X ^ { T } X \theta - \theta ^ { T } X ^ { T } \vec { y } - \vec { y } ^ { T } X \theta + \vec { y } ^ { T } \vec { y } \right) \\
+    =& \quad \frac { 1 } { 2 } \nabla _ { \theta } \left( \operatorname { tr } \theta ^ { T } X ^ { T } X \theta - 2 \operatorname { tr } \vec { y } ^ { T } X \theta \right) \\
+    =& \quad \frac { 1 } { 2 } \left( X ^ { T } X \theta + X ^ { T } X \theta - 2 X ^ { T } \vec { y } \right) \\
+    =& \quad X ^ { T } X \theta - X ^ { T } \vec { y } \\
+  \end{split}
+\end{equation}
+To minimize $J$, we set its derivatives to zero, and obtain the normal
+equations:
+\begin{equation}
+  X ^ { T } X \theta = X ^ { T } \vec { y }
+\end{equation}
+Which solves $\theta$ for a value that minimizes $J(\theta)$ in closed form:
+\begin{equation}
+  \theta = \left( X ^ { T } X \right) ^ { - 1 } X ^ { T } \vec { y }
+\end{equation}
+\subsection{Probabilistic Interpretation}
+Why does linear regression use the least-squares cost function? Assume that
+the target variables and inputs are related via:
+\begin{equation}
+  y ^ { ( i ) } = \theta ^ { T } x ^ { ( i ) } + \epsilon ^ { ( i ) }
+\end{equation}
+Here, $\epsilon^{(i)}$ is an error term for noise. We assume each
+$\epsilon^{(i)}$ is independently and identically distributed according to a
+Gaussian distribution with mean zero and some variance $\sigma^2$. Hence,
+$\epsilon^{(i)} \sim \mathcal { N } \left( 0 , \sigma ^ { 2 } \right)$, so
+the density for any sample $x^{(i)}$ with label $y^{(i)}$ is
+$y^{(i)} | x^{(i)}; \theta \sim \mathcal{N} \left( \theta^T x^{(i)}, \sigma^{2} \right)$.
+This implies:
+\begin{equation}
+  p \left( y ^ { ( i ) } | x ^ { ( i ) } ; \theta \right) = \frac { 1 } { \sqrt { 2 \pi } \sigma } \exp \left( - \frac { \left( y ^ { ( i ) } - \theta ^ { T } x ^ { ( i ) } \right) ^ { 2 } } { 2 \sigma ^ { 2 } } \right)
+\end{equation}
+The probability of a dataset $X$ is quantified by a likelihood function:
+\begin{equation}
+  L ( \theta ) = L ( \theta ; X , \vec { y } ) = p ( \vec { y } | X ; \theta )
+\end{equation}
+Since we assume independence on each noise term (and samples), we can write
+the likelihood function as:
+\begin{equation}
+  \begin{aligned}
+    L ( \theta ) & = \prod _ { i = 1 } ^ { m } p \left( y ^ { ( i ) } | x ^ { ( i ) } ; \theta \right) \\
+    & = \prod _ { i = 1 } ^ { m } \frac { 1 } { \sqrt { 2 \pi } \sigma } \exp \left( - \frac { \left( y ^ { ( i ) } - \theta ^ { T } x ^ { ( i ) } \right) ^ { 2 } } { 2 \sigma ^ { 2 } } \right)
+  \end{aligned}
+\end{equation}
+To get the best choice of parameters $\theta$, we perform maximum likelihood
+estimation such that $L(\theta)$ is maximized. Usually we take the negative log
+and minimize:
+\begin{equation}
+  \begin{aligned}
+    \ell ( \theta ) & = - \log L ( \theta ) \\
+    & = - \log \prod _ { i = 1 } ^ { m } \frac { 1 } { \sqrt { 2 \pi } \sigma } \exp \left( - \frac { \left( y ^ { ( i ) } - \theta ^ { T } x ^ { ( i ) } \right) ^ { 2 } } { 2 \sigma ^ { 2 } } \right) \\
+    & = - \sum _ { i = 1 } ^ { m } \log \frac { 1 } { \sqrt { 2 \pi } \sigma } \exp \left( - \frac { \left( y ^ { ( i ) } - \theta ^ { T } x ^ { ( i ) } \right) ^ { 2 } } { 2 \sigma ^ { 2 } } \right) \\
+    & = - m \log \frac { 1 } { \sqrt { 2 \pi } \sigma } + \frac { 1 } { \sigma ^ { 2 } } \cdot \frac { 1 } { 2 } \sum _ { i = 1 } ^ { m } \left( y ^ { ( i ) } - \theta ^ { T } x ^ { ( i ) } \right) ^ { 2 }
+  \end{aligned}
+\end{equation}
+Hence, maximizing $L(\theta$) is the same as minimizing the negative log
+likelihood $\ell(\theta)$, which for linear regression is the least squares
+cost function:
+\begin{equation}
+  \frac { 1 } { 2 } \sum _ { i = 1 } ^ { m } \left( y ^ { ( i ) } - \theta ^ { T } x ^ { ( i ) } \right) ^ { 2 }
+\end{equation}
+Under the previous probabilistic assumptions on the data, least-squares
+regression corresponds to finding the maximum likelihood estimate of $\theta$.
+This is thus one set of assumptions under which least-squares regression
+can be justified as performing maximum likelihood estimation. Note that $\theta$
+is independent of $\sigma^2$.
+\subsection{Locally Weighted Linear Regression}
+Locally Weighted Regression, also known as LWR, is a variant of
+linear regression that weights each training example in its cost function by
+$w^{(i)}(x)$, which is defined with parameter $\tau \in \mathbb{R}$ as:
+\begin{equation}
+  w^{(i)}(x)=\exp\left(-\frac{(x^{(i)}-x)^2}{2\tau^2}\right)
+\end{equation}
+Hence, in LWR, we do the following:
+\begin{enumerate}
+  \item Fit $\theta$ to minimize $\sum_i w^{(i)} \left( y^{(i)} - \theta^{T} x^{(i)} \right)^{2}$
+  \item Output $\theta^T x$
+\end{enumerate}
+This is a non-parametric algorithm, where non-parametric refers to the fact
+that the amount of information we need to represent the hypothesis $h$ grows
+linearly with the size of the training set.

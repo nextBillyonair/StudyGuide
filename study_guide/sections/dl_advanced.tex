@@ -1,0 +1,124 @@
+\section{Deep Learning: Advanced}
+\subsection{Autoencoders}
+\subsubsection{Variational Autoencoders}
+\subsection{General Adversarial Networks}
+\subsection{Encoder-Decoder Models}
+Encoder-decoder models allow for many to many RNN sequence learning. The idea
+for them is two take a source sequence, encode it to a vectorized output, and
+pass the hidden state over to the decoder (and possible the encodings themselves)
+to generate output. These models come up in machine tranlsations, allowing
+models to translate a source language into a target language.
+\subsubsection{Encoders}
+% The encoder, or \emph{inference network}, recieves an input sequence
+% $\arrow{x} = \left[x_1, \cdots, x_n \right]$ and encodes the sequence through
+% recurrent layers.
+\subsubsection{Decoders}
+\subsection{Attention Models}
+Attention models were discussed by Bahdanau, and later Luong. They are a means
+to alter the representation of a set of encodings to pay attention to certain
+sequence elements more so than others. In an encoder-decoder model with out
+attention, the decoder relies exclusivly on the hidden state to hold all
+information. Attention, by contrast, uses the hidden state to create a context
+vector of the encodings.
+\subsubsection{Context Vector}
+Attention mechanisms rely on one simple concept: producing context vectors.
+Hence, given a set of encodeings $h = \left[h_i, \cdots, h_j, \cdots h_n \right]$
+from the encoder, and the current hidden state $s_{i-1}$, we compute a score
+for each encoding $h_j$, denoted $score(s_{i-1}, h_j)$. These scores are discussed
+in later sections. With a score computed for each encoding, we apply a softmax
+across all scores:
+\begin{equation}
+  a(s_{i-1}, h_j) = \frac{\exp(score(s_{i-1}, h_j))}{\sum_{j'} \exp(score(s_{i-1}, h_{j'}))}
+\end{equation}
+These softmax proabilities are attention weights, and our context vector $c_i$
+is the weighted sum of the encodings given these weights:
+\begin{equation}
+  c_i = \sum_{j'} a(s_{i-1}, h_{j'}) \cdot h_{j'}
+\end{equation}
+These context vectors are appended to the embedding of the token set into the decoder.
+\subsubsection{Concat (Bahdanau) Attention}
+The concat attention scoring mechanism has two learnable weights, $v_a$ and $W_a$
+and is defined as:
+\begin{equation}
+  score(s_{i-1}, h_j) = v_a^T \cdot \tanh \left( W_a \cdot \left[ s_{i-1} ; h_j \right] \right)
+\end{equation}
+\subsubsection{Luong Attention Mechanisms}
+Luong defined several global attention mechanisms, defined here:
+\begin{equation}
+  score(s_{i-1}, h_j) =
+    \begin{cases}
+      s_{i-1}^T \cdot W_a \cdot h_j & general \\
+      s_{i-1}^T \cdot h_j & dot
+    \end{cases}
+\end{equation}
+Luong also explored local attention weights, with monotonic alignment and
+predictive alignment. The difference in local attention is that the
+context vector is derived on source hidden states within the window
+$\left[p_t - D , \, p_t + D\right]$ for some $D$ and decoder time step $t$ (i.e. $i-1$).
+In monotonic alignment, aligned position $p_t=t$.
+In predicitve alignment, the aligned position is:
+\begin{equation}
+  p_t = S \cdot \sigma \left( v_p^T \tanh \left( W_p s_{i-1} \right) \right)
+\end{equation}
+where $v_p$ and $W_p$ are learnable parameters,
+$S$ is the source sentence length. In addition, the weights are gaussian centered
+around $p_t$:
+\begin{equation}
+  a(s_{i-1}, h_j) = \frac{\exp(score(s_{i-1}, h_j))}{\sum_{j'} \exp(score(s_{i-1}, h_{j'}))} \cdot \exp\left(-\frac{(s-p_t)^2}{2\left(\frac{D}{2}\right)^2}\right)
+\end{equation}
+Here, $s$ is an integer within the window centered at $p_t$.
+
+
+\subsection{Word Embeddings}
+Word Embeddings seek to create a dense vector representation of real values
+to represent a single word in a euclidean space. Word vectors are weight matrices
+where each row corresponds to a word, acessed through a numerical token representing
+the word itself. However, several models have been developed to train these
+word embedding weights to encode lexical meaning.
+\subsubsection{N-Gram Models}
+A simple apporach is to take a context of size $n$ words that appear before our
+target word, and attempt to train a model to predict a word $w_i$ that appears
+in a training corpus. We effectively average the input word embeddings, apply
+a linear layer to project the data to the vocab size, and maximize the probability
+of predicitng the target word (i.e. apply a softmax of the output vector).
+\begin{equation}
+  \max \, p(w_{i} \,|\, w_{i-n}, \dots, w_{i-1}) = \max \frac{\exp f(w_{i-n}, \dots, w_{i-1})_i}{\sum_{j=1}^{|V|}\exp f(w_{i-n}, \dots, w_{i-1})_j }
+\end{equation}
+Where our model is:
+\begin{equation}
+  f(w_{i-n}, \dots, w_{i-1}) = W_d \cdot \left( \frac{1}{n}\sum_{j=1}^n W_e[w_{i-j}] \right) + b_d \in \mathbb{R}^{|V|}
+\end{equation}
+Here, $|V|$ is the size of the vocabulary, $W_d\in\mathbb{R}^{d\times|V|}$ is
+a projection matrix used for training along with bias $b_d$,
+and $W_e\in\mathbb{R}^{|V|\times d}$ are the word embeddings we seek to train.
+$d$ is the embedding dimension. \\
+Now we can write the negative log likelihood as:
+\begin{equation}
+    \min -\log p(w_{i} \,|\, w_{i-n}, \dots, w_{i-1}) = - f(w_{i-n}, \dots, w_{i-1})_i + \log \sum_{j=1}^{|V|} \exp f(w_{i-n}, \dots, w_{i-1})_j
+\end{equation}
+\subsubsection{Continuous Bag-of-Words Models (CBOW)}
+The continuous bag of words model, or CBOW, seeks to predict a center word
+given the surrounding context words. For instance, given a context size of $n$,
+for a target center word $w_i$, we are given context words
+$w_{i-n}, \dots w_{i-1}, w_{i+1}, \dots w_{i+n}$ and attempt to predict $w_i$.
+Hence:
+\begin{equation}
+  \max \, p(w_{i} \,|\, w_{i-n}, \dots, w_{i-1}, w_{i+1}, \dots, w_{i+n}) = \max \frac{\exp f(w_{i-n}, \dots, w_{i-1}, w_{i+1}, \dots, w_{i+n})_i}{\sum_{j=1}^{|V|}\exp f(w_{i-n}, \dots, w_{i-1}, w_{i+1}, \dots, w_{i+n})_j }
+\end{equation}
+Where our model is:
+\begin{equation}
+  f(w_{i-n}, \dots, w_{i-1}, w_{i+1}, \dots, w_{i+n}) = W_d \cdot \left( \frac{1}{2*n}\sum_{j=-n,j\not=0}^n W_e[w_{i+j}] \right) + b_d \in \mathbb{R}^{|V|}
+\end{equation}
+Here, $|V|$ is the size of the vocabulary, $W_d\in\mathbb{R}^{d\times|V|}$ is
+a projection matrix used for training along with bias $b_d$,
+and $W_e\in\mathbb{R}^{|V|\times d}$ are the word embeddings we seek to train.
+$d$ is the embedding dimension. \\
+Now we can write the negative log likelihood as:
+\begin{equation}
+  \begin{split}
+    \min -\log p(w_{i} \,|\, w_{i-n}, \dots, w_{i-1}, w_{i+1}, \dots, w_{i+n}) =& - f(w_{i-n}, \dots, w_{i-1}, w_{i+1}, \dots, w_{i+n})_i \\
+    &+ \log \sum_{j=1}^{|V|} \exp f(w_{i-n}, \dots, w_{i-1}, w_{i+1}, \dots, w_{i+n})_j
+  \end{split}
+\end{equation}
+\subsubsection{Skip-Gram Model}
+\subsubsection{Negative Sampling}

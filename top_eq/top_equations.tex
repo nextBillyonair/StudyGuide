@@ -131,7 +131,7 @@
       & $\displaystyle y = Wx + b$      & Base Layer in Deep Learning      &
     \\ \\ \\
     4  &  Convolutions
-      &   $\displaystyle (f \ast g)[n] = \sum_{m=0}^{K} f[n - m] g[m] $    & Image Networks      &
+      &   $\displaystyle (f \ast g)[n] = \sum_{m=0}^{K} f[n - m] \cdot g[m] $    & Image Networks      &
     \\ \\ \\
     5  &  ReLU
       & $\displaystyle \operatorname{ReLU}\left( x \right) = \max(0, x)$      & Activation Function      &
@@ -140,16 +140,16 @@
       & $\displaystyle h_{t+1} = \tanh \left( W_{ih} x_t + b_{ih} + W_{hh}h_t + b_{hh} \right)$      & Sequence Modeling      &
     \\ \\ \\
     7  &  Self Attention
-      & $\displaystyle \operatorname{Attention} \left( Q, K, V \right) = \operatorname{softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right) V$      & Transformers      &
+      & $\displaystyle \operatorname{Attention} \left( Q, K, V \right) = \operatorname{softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right) V$      & Transformers      & \cite{self_attention}
     \\ \\ \\
     8  &  Generative Adversarial Netowrks
-      & $\displaystyle \min_G \max_D \mathop{\mathbb{E}}_{x \sim p_{data}(x)}\left[\log D(x)\right] + \mathop{\mathbb{E}}_{z \sim p_{z}(z)}\left[\log \left(1 - D(G(z))\right) \right]  $      & Generative Modeling      &
+      & $\displaystyle \min_G \max_D \mathop{\mathbb{E}}_{x \sim p_{data}(x)}\left[\log D(x)\right] + \mathop{\mathbb{E}}_{z \sim p_{z}(z)}\left[\log \left(1 - D(G(z))\right) \right]  $      & Generative Modeling      & \cite{gan}
     \\ \\ \\
     9  &  REINFORCE
       & $\displaystyle \triangle \theta = \alpha r \frac{\partial \log p \left( a \mid \pi^{\theta}(s) \right)}{\partial \theta}$      & Reinforcement Learning       &
     \\ \\ \\
     10 &  (Variational) Auto-Encoder
-      &       & Liklihood Modeling       &
+      &       & Liklihood Modeling       & \cite{vae}
     \\ \\ \\
     11 &  Categorical Cross Entropy
       & $\displaystyle L\left(x, y\right) = -x_y + \log \left(\sum_j \exp \left(x_j\right)\right)$      & Multiclass Classification      &

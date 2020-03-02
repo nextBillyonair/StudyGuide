@@ -125,7 +125,7 @@
       & $\displaystyle \theta_{i+1} \leftarrow \theta_{i} - \alpha \sum_{x \in B} \frac{\partial L(x)}{\partial \theta}$      & Optimization      &
     \\ \\ \\
     2  &  Backpropagation
-      & $\displaystyle \frac{\partial L}{\partial \theta} = \frac{\partial L}{\partial z}\frac{\partial z}{\partial \theta} $      & Computing Gradients      &
+      & $\displaystyle \frac{\partial L}{\partial \theta} = \frac{\partial L}{\partial z}\frac{\partial z}{\partial \theta} $      & Computing Gradients      & \cite{rnn_backprop}
     \\ \\ \\
     3  &  Linear Layer
       & $\displaystyle y = Wx + b$      & Base Layer in Deep Learning      &
@@ -134,10 +134,10 @@
       &   $\displaystyle (f \ast g)[n] = \sum_{m=0}^{K} f[n - m] \cdot g[m] $    & Image Networks      &
     \\ \\ \\
     5  &  ReLU
-      & $\displaystyle \operatorname{ReLU}\left( x \right) = \max(0, x)$      & Activation Function      &
+      & $\displaystyle \operatorname{ReLU}\left( x \right) = \max(0, x)$      & Activation Function      & \cite{relu}
     \\ \\ \\
     6  &  Recurrent Cells
-      & $\displaystyle h_{t+1} = \tanh \left( W_{ih} x_t + b_{ih} + W_{hh}h_t + b_{hh} \right)$      & Sequence Modeling      &
+      & $\displaystyle h_{t+1} = \tanh \left( W_{ih} x_t + b_{ih} + W_{hh}h_t + b_{hh} \right)$      & Sequence Modeling      & \cite{rnn_backprop}
     \\ \\ \\
     7  &  Self Attention
       & $\displaystyle \operatorname{Attention} \left( Q, K, V \right) = \operatorname{softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right) V$      & Transformers      & \cite{self_attention}
